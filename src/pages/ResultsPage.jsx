@@ -40,7 +40,6 @@ function ResultsPage() {
       ) : (
         <p>You haven't completed any quizzes yet.</p>
       )}
-      <Link to="/quiz">Take Another Quiz</Link>
     </div>
   );
 }
