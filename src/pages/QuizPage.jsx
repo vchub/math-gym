@@ -59,7 +59,7 @@ function QuizPage() {
 
   return (
     <div>
-      <h1>{quizData.title}</h1>
+      <p>{quizData.shortDescription}</p>
       <Question
         questionData={currentQuestion}
         onAnswerSelect={handleAnswerSelect}
