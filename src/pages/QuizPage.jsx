@@ -54,7 +54,7 @@ function QuizPage() {
 
   return (
     <div>
-      <h1>{renderWithLatex(quizData.description)}</h1> {/* CHANGED */}
+      <h3>{renderWithLatex(quizData.description)}</h3> {/* CHANGED */}
       <Question
         questionData={currentQuestion}
         onAnswerSelect={handleAnswerSelect}
