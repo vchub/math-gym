@@ -1,9 +1,10 @@
+// src/App.jsx
+
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './firebase';
 
-import './App.css'; // Ensure CSS is imported
-
+import './App.css';
 import LoginPage from './pages/LoginPage';
 import QuizListPage from './pages/QuizListPage';
 import QuizPage from './pages/QuizPage';
@@ -14,6 +15,10 @@ import 'katex/dist/katex.min.css';
 function App() {
   const [user, loading] = useAuthState(auth);
 
+  const handleLogout = () => {
+    auth.signOut();
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -23,9 +28,12 @@ function App() {
       {user && (
         <header className="app-header">
           <nav>
-            <Link to="/">Quizzes</Link>
-            <Link to="/results">My Results</Link>
-            <Link to="/admin">Create Quiz</Link>
+            <div className="nav-links">
+              <Link to="/">Quizzes</Link>
+              <Link to="/results">My Results</Link>
+              <Link to="/admin">Create Quiz</Link>
+            </div>
+            <button onClick={handleLogout} className="logout-button">Logout</button>
           </nav>
         </header>
       )}

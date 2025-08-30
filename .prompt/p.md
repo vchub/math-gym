@@ -18,13 +18,17 @@ We want to implement:
 - search for quiz by a short description
 
 Requirements:
-When we open a quiz the ulr shoud be shareable: like app.url/quiz/quiz-id
-So we can send a link to a students and they can open the quiz by the link
+We want to send a link to a students and they can open the quiz by the link, like app_url/quiz/quiz-id, where quiz-id is quiz id in firestore.
+Now, if we paste the url into browser we got page not found message from firebase.
 
 Question:
+Is it a problem with firebase settings or our app. routing?
+
 What implementation plan and structure would you suggest?
 
 ---
+
+We want to add a field "Tutorial" to the quiz. It will contain a link to textbook or tutorial. When clicked, it should open another tab in a browser
 
 ---
 

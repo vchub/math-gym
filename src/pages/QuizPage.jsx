@@ -74,7 +74,7 @@ function QuizPage() {
       ) : (
         <button onClick={handleSubmit}>Submit Quiz</button>
       )}
-      <button onClick={() => { auth.signOut(); navigate('/login'); }}>Logout</button>
+      {/* The logout button below has been removed */}
     </div>
   );
 }
