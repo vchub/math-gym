@@ -1,4 +1,29 @@
+/* Let #root take up the full width so the header can span across it */
 #root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Styles for the persistent header */
+.app-header {
+  padding: 1rem 0;
+  border-bottom: 1px solid #444;
+  background-color: #242424; /* Match the body background color */
+}
+
+/* Centering the navigation links within the header */
+.app-header nav {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+/* This new class now holds the styles that were previously on #root */
+.app-content {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
