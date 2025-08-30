@@ -1,8 +1,7 @@
-// src/pages/QuizListPage.jsx
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getQuizzes } from '../services/quizService';
+import { renderWithLatex } from '../utils/latexParser.jsx'; // CHANGED
 
 function QuizListPage() {
   const [quizzes, setQuizzes] = useState([]);
@@ -12,7 +11,7 @@ function QuizListPage() {
   useEffect(() => {
     const fetchQuizzes = async () => {
       const allQuizzes = await getQuizzes();
-      allQuizzes.sort((a, b) => b.timestamp?.toDate() - a.timestamp?.toDate()); // Newest first
+      allQuizzes.sort((a, b) => b.timestamp?.toDate() - a.timestamp?.toDate());
       setQuizzes(allQuizzes);
       setLoading(false);
     };
@@ -20,8 +19,8 @@ function QuizListPage() {
   }, []);
 
   const filteredQuizzes = quizzes.filter(quiz =>
-    quiz.shortDescription.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    quiz.title.toLowerCase().includes(searchTerm.toLowerCase())
+    (quiz.description && quiz.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (quiz.title && quiz.title.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   if (loading) return <div>Loading quizzes...</div>;
@@ -39,8 +38,8 @@ function QuizListPage() {
         <ul style={{ padding: 0 }}>
           {filteredQuizzes.map(quiz => (
             <li key={quiz.id} style={{ listStyle: 'none', border: '1px solid #ccc', margin: '10px', padding: '10px', textAlign: 'left' }}>
-              <h3>{quiz.title}</h3>
-              <p>{quiz.shortDescription}</p>
+              <h3>{renderWithLatex(quiz.title)}</h3> {/* CHANGED */}
+              <p>{renderWithLatex(quiz.description)}</p> {/* CHANGED */}
               <Link to={`/quiz/${quiz.id}`}>Start Quiz</Link>
             </li>
           ))}

@@ -1,20 +1,18 @@
-// src/pages/QuizPage.jsx
-
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom'; // Import useParams
+import { useNavigate, useParams } from 'react-router-dom';
 import Question from '../components/Question';
 import { saveQuizResult } from '../services/quizService';
-import { getQuizById } from '../services/quizService'; // Import new service
+import { getQuizById } from '../services/quizService';
 import { auth } from '../firebase';
+import { renderWithLatex } from '../utils/latexParser.jsx'; // CHANGED
 
 function QuizPage() {
-  const { quizId } = useParams(); // Get quizId from URL
+  const { quizId } = useParams();
   const [quizData, setQuizData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -23,15 +21,12 @@ function QuizPage() {
       if (data) {
         setQuizData(data);
       } else {
-        // Handle case where quiz is not found
         console.error("Quiz not found");
       }
       setLoading(false);
     };
     fetchQuiz();
-  }, [quizId]); // Re-run effect if quizId changes
-
-
+  }, [quizId]);
 
   const handleAnswerSelect = (questionId, answer) => {
     setAnswers(prev => ({ ...prev, [questionId]: answer }));
@@ -59,7 +54,7 @@ function QuizPage() {
 
   return (
     <div>
-      <p>{quizData.shortDescription}</p>
+      <h1>{renderWithLatex(quizData.description)}</h1> {/* CHANGED */}
       <Question
         questionData={currentQuestion}
         onAnswerSelect={handleAnswerSelect}

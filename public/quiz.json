@@ -1,13 +1,10 @@
 {
-  "title": "Math & Physics Fundamentals Quiz",
-  "description": "example description",
+  "title": "Math & Physics Fundamentals Quiz 2",
+  "description": "example description $2x + 3 = 11$?",
   "questions": [
     {
       "id": 1,
       "text": "What is the value of $x$ in the equation $2x + 3 = 11$?",
-      "shortDescription": "String",
-      "createdAt": "Timestamp",
-      "authorId": "String",
       "options": [
         "3",
         "4",
