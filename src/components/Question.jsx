@@ -8,27 +8,42 @@ import { InlineMath } from 'react-katex';
  * @returns {Array<React.ReactNode>} - An array of strings and React components.
  */
 const renderWithLatex = (text) => {
-  // This regex splits the string by either $...$ or $$...$$, keeping the delimiters.
   const parts = text.split(/(\$\$?.+?\$\$?)/g);
 
   return parts.map((part, index) => {
-    // Check for double dollar signs (block math)
     if (part.startsWith('$$') && part.endsWith('$$')) {
-      // Use InlineMath to render inside a button; slice off the '$$'
       return <InlineMath key={index} math={part.slice(2, -2).trim()} />;
     }
-    // Check for single dollar signs (inline math)
     if (part.startsWith('$') && part.endsWith('$')) {
-      // Slice off the '$'
       return <InlineMath key={index} math={part.slice(1, -1)} />;
     }
-    // Return regular text parts
     return part;
   });
 };
 
 function Question({ questionData, onAnswerSelect, selectedAnswer }) {
   if (!questionData) return null;
+
+  const hasAnswered = selectedAnswer != null;
+
+  const getButtonStyle = (option) => {
+    if (!hasAnswered) {
+      return { backgroundColor: '#1a1a1a' }; // Default style
+    }
+
+    const isCorrectAnswer = option === questionData.answer;
+    const isSelectedAnswer = option === selectedAnswer;
+
+    if (isCorrectAnswer) {
+      return { backgroundColor: '#28a745' }; // Green for correct
+    }
+    if (isSelectedAnswer && !isCorrectAnswer) {
+      return { backgroundColor: '#dc3545' }; // Red for incorrect selection
+    }
+    
+    // Style for other non-selected, incorrect options
+    return { backgroundColor: '#1a1a1a', opacity: 0.6 }; 
+  };
 
   return (
     <div className="card">
@@ -40,8 +55,9 @@ function Question({ questionData, onAnswerSelect, selectedAnswer }) {
             onClick={() => onAnswerSelect(questionData.id, option)}
             style={{
               margin: '5px',
-              backgroundColor: selectedAnswer === option ? '#646cff' : '#1a1a1a'
+              ...getButtonStyle(option)
             }}
+            disabled={hasAnswered} // Disable buttons after an answer is selected
           >
             {renderWithLatex(option)}
           </button>
