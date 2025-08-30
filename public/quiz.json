@@ -4,6 +4,9 @@
     {
       "id": 1,
       "text": "What is the value of $x$ in the equation $2x + 3 = 11$?",
+      "shortDescription": "String",
+      "createdAt": "Timestamp",
+      "authorId": "String",
       "options": [
         "3",
         "4",
