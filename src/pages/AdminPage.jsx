@@ -1,3 +1,5 @@
+// src/pages/AdminPage.jsx
+
 import React, { useState } from 'react';
 import { createQuiz } from '../services/quizService';
 import { auth } from '../firebase';
@@ -29,6 +31,11 @@ function AdminPage() {
         questions: parsedJson.questions,
         authorId: auth.currentUser.uid,
       };
+
+      // Add the tutorial field if it exists in the JSON
+      if (parsedJson.tutorial && typeof parsedJson.tutorial === 'string') {
+        newQuiz.tutorial = parsedJson.tutorial;
+      }
 
       const newQuizId = await createQuiz(newQuiz);
       alert('Quiz created successfully!');

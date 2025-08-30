@@ -1,6 +1,7 @@
 {
   "title": "Math & Physics Fundamentals Quiz 2",
   "description": "example description $2x + 3 = 11$?",
+  "tutorial": "https://www.khanacademy.org/math/algebra",
   "questions": [
     {
       "id": 1,

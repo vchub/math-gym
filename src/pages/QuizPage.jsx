@@ -1,10 +1,12 @@
+// src/pages/QuizPage.jsx
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Question from '../components/Question';
 import { saveQuizResult } from '../services/quizService';
 import { getQuizById } from '../services/quizService';
 import { auth } from '../firebase';
-import { renderWithLatex } from '../utils/latexParser.jsx'; // CHANGED
+import { renderWithLatex } from '../utils/latexParser.jsx';
 
 function QuizPage() {
   const { quizId } = useParams();
@@ -54,7 +56,14 @@ function QuizPage() {
 
   return (
     <div>
-      <h3>{renderWithLatex(quizData.description)}</h3> {/* CHANGED */}
+      <h3>{renderWithLatex(quizData.description)}</h3>
+      {quizData.tutorial && (
+        <p>
+          <a href={quizData.tutorial} target="_blank" rel="noopener noreferrer">
+            Need help? Check out the tutorial.
+          </a>
+        </p>
+      )}
       <Question
         questionData={currentQuestion}
         onAnswerSelect={handleAnswerSelect}
