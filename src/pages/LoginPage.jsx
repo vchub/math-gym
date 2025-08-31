@@ -1,15 +1,14 @@
+// src/pages/LoginPage.jsx
+
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../firebase';
-import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
-  const navigate = useNavigate();
-
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      navigate('/quiz'); // Redirect to quiz after successful login
+      // Navigation is now handled by the main App component
     } catch (error) {
       console.error("Authentication failed:", error);
     }
