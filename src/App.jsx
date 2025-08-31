@@ -56,7 +56,9 @@ function AppContent() {
       )}
       <main className="app-content">
         <Routes>
-          <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} />
+          {/* <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} /> */}
+          // After
+          <Route path="/login" element={<LoginPage />} />
           
           {/* Protected Routes */}
           <Route path="/quiz/:quizId" element={<ProtectedRoute><QuizPage /></ProtectedRoute>} />
