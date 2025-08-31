@@ -24,5 +24,6 @@ dist-ssr
 *.sw?
 context.xml
 .env
+.env.local
 .firebase
 dist
