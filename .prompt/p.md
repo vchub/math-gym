@@ -32,7 +32,7 @@ Results
 Create Quiz
 Account
 
-- Other Students (link in Account)
+- Other Students (link in Account page)
 
 if we click through Other Students -> View results (for a student) we got an
 error:

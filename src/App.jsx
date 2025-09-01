@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { auth } from './firebase';
+import { auth } from './firebase.js'; // Corrected import path
 import { createUserProfileIfNeeded } from './services/userService';
 import { useUserProfile } from './hooks/useUserProfile';
 
@@ -21,7 +21,7 @@ import 'katex/dist/katex.min.css';
 
 // This wrapper component allows us to use router hooks
 function AppContent() {
-  const { user, profile, loading } = useUserProfile();
+  const { user, loading } = useUserProfile();
   const navigate = useNavigate();
 
   // This effect will run when the user state changes
@@ -52,10 +52,9 @@ function AppContent() {
           <nav>
             <div className="nav-links">
               <Link to="/">Quizzes</Link>
-              <Link to="/results">My Results</Link>
-              <Link to="/account">My Account</Link>
-              <Link to="/other-students">Other Students</Link>
+              <Link to="/results">Results</Link>
               <Link to="/admin">Create Quiz</Link>
+              <Link to="/account">Account</Link>
             </div>
             <button onClick={handleLogout} className="logout-button">Logout</button>
           </nav>
