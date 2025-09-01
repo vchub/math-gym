@@ -27,3 +27,4 @@ context.xml
 .env.local
 .firebase
 dist
+src/firebase.js
