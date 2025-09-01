@@ -18,6 +18,26 @@ tech. stack:
 
 Task:
 
+We want to change nav bar.
+now:
+Quizzes
+My Results
+My Account
+Other Students
+Create Quiz
+
+want:
+Quizzes
+Results
+Create Quiz
+Account
+
+- Other Students (link in Account)
+
+if we click through Other Students -> View results (for a student) we got an
+error:
+hook.js:608 No routes matched location "/results/JbLETitxlgY77CXV2bzLrLjDZgq2"
+
 We want to be able to see detailed results of quiz.
 On "My Results" and Other Students -> Quiz Results
 the quiz result will be a link to Details.
