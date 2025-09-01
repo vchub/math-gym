@@ -1,0 +1,10 @@
+// .markdownlint.jsonc
+{
+  // Default all rules to true, then override below
+  "default": true,
+  // MD013: Line length
+  // Set to false to disable. Alternatively, you can change the limit.
+  "MD013": false,
+  // MD041: First line should be a top-level heading
+  "MD041": false
+}
