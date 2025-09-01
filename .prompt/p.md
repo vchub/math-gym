@@ -10,6 +10,16 @@ current project files in context.xml
 
 ---
 
+#### Question
+
+We are trying to save url path to cookie, in case when not logged in user use direct link to a quiz,
+like app/quiz/quiz-id
+but after the logging in the user is not redirected (navigated) to the initial quiz page.
+
+What can be done?
+
+why do we get error: index-BaH_mDLF.js:464 Uncaught FirebaseError: Firebase: Error (auth/invalid-api-key).
+
 #### Task
 
 We want to implement:
@@ -31,27 +41,3 @@ What implementation plan and structure would you suggest?
 We want to add a field "Tutorial" to the quiz. It will contain a link to textbook or tutorial. When clicked, it should open another tab in a browser
 
 ---
-
-functionality:
-
-- login
-- load quiz as json file.
-- take a quiz
-- keep results of the quiz persistent
-- check results and statistics.
-
----
-
-tech. stack:
-
-- firebase hosting
-- react
-- Vite/CRA
-
----
-
-current project files in context.xml
-
-can you suggest a project structure?
-
-create project prompt that we will use in VS Code Copilot, Gemini.
