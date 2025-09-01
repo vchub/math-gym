@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { auth } from '../firebase';
-import { addTeacherForStudent } from '../services/userService';
+import { addUserToFollow } from '../services/userService';
 
 function AccountPage() {
-  const [teacherEmail, setTeacherEmail] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
@@ -17,10 +17,15 @@ function AccountPage() {
       return;
     }
 
+    if (auth.currentUser.email === userEmail) {
+      setError("You cannot add yourself.");
+      return;
+    }
+
     try {
-      await addTeacherForStudent(auth.currentUser.uid, teacherEmail);
-      setMessage(`Successfully added ${teacherEmail} as your teacher.`);
-      setTeacherEmail('');
+      await addUserToFollow(auth.currentUser.uid, userEmail);
+      setMessage(`Successfully allowed ${userEmail} to view your results.`);
+      setUserEmail('');
     } catch (err) {
       setError(err.message);
       console.error(err);
@@ -30,18 +35,18 @@ function AccountPage() {
   return (
     <div>
       <h1>My Account</h1>
-      <h2>Add a Teacher</h2>
-      <p>Enter your teacher's email address to allow them to view your quiz results.</p>
+      <h2>Add User to View Your Results</h2>
+      <p>Enter another user's email address to allow them to view your quiz results.</p>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'flex-start' }}>
         <input
           type="email"
-          value={teacherEmail}
-          onChange={(e) => setTeacherEmail(e.target.value)}
-          placeholder="Teacher's email"
+          value={userEmail}
+          onChange={(e) => setUserEmail(e.target.value)}
+          placeholder="User's email"
           required
           style={{ width: '300px' }}
         />
-        <button type="submit">Add Teacher</button>
+        <button type="submit">Add User</button>
       </form>
       {message && <p style={{ color: 'green' }}>{message}</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}

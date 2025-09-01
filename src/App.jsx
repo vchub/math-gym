@@ -14,13 +14,13 @@ import QuizPage from './pages/QuizPage';
 import ResultsPage from './pages/ResultsPage';
 import AdminPage from './pages/AdminPage';
 import AccountPage from './pages/AccountPage';
-import TeacherDashboardPage from './pages/TeacherDashboardPage';
+import OtherStudentsPage from './pages/OtherStudentsPage'; // Renamed from TeacherDashboardPage
 import StudentResultsPage from './pages/StudentResultsPage';
 import 'katex/dist/katex.min.css';
 
 // This wrapper component allows us to use router hooks
 function AppContent() {
-  const { user, profile, loading } = useUserProfile();
+  const { user, loading } = useUserProfile();
   const navigate = useNavigate();
 
   // This effect will run when the user state changes
@@ -52,14 +52,9 @@ function AppContent() {
           <nav>
             <div className="nav-links">
               <Link to="/">Quizzes</Link>
-              {profile?.role === 'teacher' ? (
-                <Link to="/teacher-dashboard">Dashboard</Link>
-              ) : (
-                <Link to="/results">My Results</Link>
-              )}
-              {profile?.role !== 'teacher' && (
-                <Link to="/account">My Account</Link>
-              )}
+              <Link to="/results">My Results</Link>
+              <Link to="/account">My Account</Link>
+              <Link to="/other-students">Other Students</Link>
               <Link to="/admin">Create Quiz</Link>
             </div>
             <button onClick={handleLogout} className="logout-button">Logout</button>
@@ -68,8 +63,6 @@ function AppContent() {
       )}
       <main className="app-content">
         <Routes>
-          {/* <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} /> */}
-          // After
           <Route path="/login" element={<LoginPage />} />
           
           {/* Protected Routes */}
@@ -77,8 +70,8 @@ function AppContent() {
           <Route path="/results" element={<ProtectedRoute><ResultsPage /></ProtectedRoute>} />
           <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
           <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
-          <Route path="/teacher-dashboard" element={<ProtectedRoute><TeacherDashboardPage /></ProtectedRoute>} />
-          <Route path="/teacher/results/:studentId" element={<ProtectedRoute><StudentResultsPage /></ProtectedRoute>} />
+          <Route path="/other-students" element={<ProtectedRoute><OtherStudentsPage /></ProtectedRoute>} />
+          <Route path="/results/:studentId" element={<ProtectedRoute><StudentResultsPage /></ProtectedRoute>} />
           
           {/* Default Route */}
           <Route path="/" element={<ProtectedRoute><QuizListPage /></ProtectedRoute>} />

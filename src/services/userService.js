@@ -16,9 +16,9 @@ export const createUserProfileIfNeeded = async (user) => {
         uid: user.uid,
         email: user.email,
         displayName: user.displayName || user.email,
-        role: 'student', // Default role
-        myStudents: [],
-        myTeachers: []
+        role: 'student', // Default role for now, can be used for admin later
+        following: [], // Users this user is following (their "teachers")
+        followers: []  // Users following this user (their "students")
       });
     } catch (error) {
       console.error("Error creating user profile:", error);
@@ -51,36 +51,32 @@ export const findUserByEmail = async (email) => {
   if (querySnapshot.empty) {
     return null;
   }
-  // Assuming emails are unique for users
   return querySnapshot.docs[0].data();
 };
 
 /**
- * Creates an association between a student and a teacher.
- * @param {string} studentUid - The student's UID.
- * @param {string} teacherEmail - The teacher's email address.
+ * Allows the current user to follow another user, enabling them to see the current user's results.
+ * @param {string} currentUserUid - The UID of the user initiating the follow.
+ * @param {string} emailToFollow - The email address of the user to follow.
  */
-export const addTeacherForStudent = async (studentUid, teacherEmail) => {
-  const teacher = await findUserByEmail(teacherEmail);
+export const addUserToFollow = async (currentUserUid, emailToFollow) => {
+  const userToFollow = await findUserByEmail(emailToFollow);
 
-  if (!teacher) {
+  if (!userToFollow) {
     throw new Error("No user found with that email address.");
   }
-  if (teacher.role !== 'teacher') {
-    throw new Error("The user with this email is not a teacher.");
-  }
   
-  const teacherUid = teacher.uid;
+  const userToFollowUid = userToFollow.uid;
   
-  // Add teacher to student's 'myTeachers' array
-  const studentRef = doc(db, "users", studentUid);
-  await updateDoc(studentRef, {
-    myTeachers: arrayUnion(teacherUid)
+  // Add the followed user to the current user's 'following' array
+  const currentUserRef = doc(db, "users", currentUserUid);
+  await updateDoc(currentUserRef, {
+    following: arrayUnion(userToFollowUid)
   });
 
-  // Add student to teacher's 'myStudents' array
-  const teacherRef = doc(db, "users", teacherUid);
-  await updateDoc(teacherRef, {
-    myStudents: arrayUnion(studentUid)
+  // Add the current user to the other user's 'followers' array
+  const userToFollowRef = doc(db, "users", userToFollowUid);
+  await updateDoc(userToFollowRef, {
+    followers: arrayUnion(currentUserUid)
   });
 };
