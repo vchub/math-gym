@@ -18,6 +18,27 @@ tech. stack:
 
 Task:
 
+We want to be able to see detailed results of quiz.
+On "My Results" and Other Students -> Quiz Results
+the quiz result will be a link to Details.
+Details will include question text, and given answer, and is it correct or not.
+
+After implementing your plan - separate student and teacher roles, we decided
+against it.
+We will have the only role - student, for now. (Later we add admin role, for
+general administration purposes)
+
+A user will have pages:
+Quizzes
+My Results
+My Account
+Other students (now Dashboard)
+Create Quiz
+
+Change the code to use student role only.
+
+current project in context.xml
+
 ---
 
 #### Question
