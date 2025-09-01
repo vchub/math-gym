@@ -10,7 +10,7 @@ function Question({ questionData, onAnswerSelect, selectedAnswer }) {
     if (!hasAnswered) {
       return { backgroundColor: '#1a1a1a' };
     }
-    const isCorrectAnswer = option === questionData.answer;
+    const isCorrectAnswer = option === questionData.options[questionData.answer];
     const isSelectedAnswer = option === selectedAnswer;
     if (isCorrectAnswer) {
       return { backgroundColor: '#28a745' };
@@ -39,6 +39,12 @@ function Question({ questionData, onAnswerSelect, selectedAnswer }) {
           </button>
         ))}
       </div>
+      {hasAnswered && questionData.explanation && (
+        <div style={{ marginTop: '20px', padding: '10px', border: '1px solid #444', borderRadius: '8px', textAlign: 'left' }}>
+          <h4>Explanation</h4>
+          <p>{renderWithLatex(questionData.explanation)}</p>
+        </div>
+      )}
     </div>
   );
 }

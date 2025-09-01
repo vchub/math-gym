@@ -6,7 +6,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore"; // Add imports
 export const saveQuizResult = async (userId, quizData, answers) => {
   let score = 0;
   quizData.questions.forEach(q => {
-    if (answers[q.id] === q.answer) {
+    if (answers[q.id] === q.options[q.answer]) {
       score++;
     }
   });

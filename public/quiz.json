@@ -12,7 +12,8 @@
         "5",
         "6"
       ],
-      "answer": "4"
+      "answer": 1,
+      "explanation": "To solve for $x$, first subtract 3 from both sides: $2x = 11 - 3$, which simplifies to $2x = 8$. Then, divide both sides by 2 to get $x = 4$."
     },
     {
       "id": 2,
@@ -23,7 +24,8 @@
         "$$ x^3 + C $$",
         "$$ \\frac{x^2}{2} + C $$"
       ],
-      "answer": "$$ \\frac{x^3}{3} + C $$"
+      "answer": 0,
+      "explanation": "The power rule for integration states that the integral of $x^n$ is $$\\frac{x^{n+1}}{n+1} + C$$. For $x^2$, this results in $$\\frac{x^3}{3} + C$$."
     },
     {
       "id": 3,
@@ -34,7 +36,8 @@
         "$v = d/t$",
         "$P = IV$"
       ],
-      "answer": "$F = ma$"
+      "answer": 0,
+      "explanation": "Newton's Second Law of Motion states that the force ($F$) acting on an object is equal to the mass ($m$) of the object multiplied by its acceleration ($a$)."
     }
   ]
 }

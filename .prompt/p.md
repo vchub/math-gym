@@ -8,6 +8,16 @@ we want to keep architecture and development process as simple as possible.
 
 current project files in context.xml
 
+tech. stack:
+
+- React - Vite SVR
+- firebase base settings
+- firestore
+
+---
+
+Task:
+
 ---
 
 #### Question

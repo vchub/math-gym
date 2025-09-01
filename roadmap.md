@@ -34,7 +34,7 @@ Should be:
 
 ---
 
-#### Explanation field to quiz question
+#### Add explanation field to quiz question
 
 Example:
 

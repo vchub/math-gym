@@ -64,6 +64,7 @@ function QuizPage() {
           </a>
         </p>
       )}
+      <h4>Question {currentQuestionIndex + 1} of {quizData.questions.length}</h4>
       <Question
         questionData={currentQuestion}
         onAnswerSelect={handleAnswerSelect}
