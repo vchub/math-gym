@@ -35,7 +35,7 @@ function AccountPage() {
 
   return (
     <div style={{ textAlign: 'left' }}>
-      <h1>My Account</h1>
+      <h1>Account</h1>
       
       <div style={{ border: '1px solid #444', borderRadius: '8px', padding: '1rem', marginBottom: '2rem' }}>
         <h2>Permissions</h2>
@@ -53,7 +53,7 @@ function AccountPage() {
             onChange={(e) => setUserEmail(e.target.value)}
             placeholder="User's email"
             required
-            style={{ width: '300px' }}
+            style={{ width: '300px', padding: '0.6em' }}
           />
           <button type="submit">Add User</button>
         </form>

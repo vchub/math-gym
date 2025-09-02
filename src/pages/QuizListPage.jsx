@@ -34,7 +34,7 @@ function QuizListPage() {
         type="text"
         placeholder="Search by title or description..."
         onChange={(e) => setSearchTerm(e.target.value)}
-        style={{ marginBottom: '20px', width: '300px' }}
+        style={{ marginBottom: '20px', width: '300px', padding: "0.6em" }}
       />
       {filteredQuizzes.length > 0 ? (
         <ul style={{ padding: 0 }}>
