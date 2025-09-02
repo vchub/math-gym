@@ -18,6 +18,28 @@ tech. stack:
 
 Task:
 
+We want this app/web site to feel and look on a phone very well.
+Current problems:
+
+1. nav on top - we'd folded variant.
+2. on my android phone background is white and answer option boxes are very
+   dark. I can't see the text in.
+   So we want to change to white background and also white answer boxes w/ well
+   visible borders.
+3. When pages changes the content jump up and down, re-centering.
+   We want pages change smoothly, w/o question and description jump.
+4. We want to move description of quiz, and tutorial link on Question under
+   question and options.
+
+We have 2 options:
+
+1. Implement web elements ourselves
+2. Use a library. But the library must be very light and very efficient.
+
+What is your opinion?
+
+---
+
 We want to change nav bar.
 now:
 Quizzes
