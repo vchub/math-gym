@@ -1,8 +1,8 @@
 // src/App.jsx
 
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { auth } from './firebase.js'; // Corrected import path
+import { BrowserRouter as Router, Routes, Route, NavLink, useNavigate } from 'react-router-dom'; // Changed Link to NavLink
+import { auth } from './firebase.js';
 import { createUserProfileIfNeeded } from './services/userService';
 import { useUserProfile } from './hooks/useUserProfile';
 
@@ -45,16 +45,18 @@ function AppContent() {
     return <div>Loading...</div>;
   }
 
+  const getNavLinkClass = ({ isActive }) => isActive ? 'active-link' : '';
+
   return (
     <>
       {user && (
         <header className="app-header">
           <nav>
             <div className="nav-links">
-              <Link to="/">Quizzes</Link>
-              <Link to="/results">Results</Link>
-              <Link to="/admin">Create Quiz</Link>
-              <Link to="/account">Account</Link>
+              <NavLink to="/" className={getNavLinkClass} end>Quizzes</NavLink>
+              <NavLink to="/results" className={getNavLinkClass}>Results</NavLink>
+              <NavLink to="/admin" className={getNavLinkClass}>Create Quiz</NavLink>
+              <NavLink to="/account" className={getNavLinkClass}>Account</NavLink>
             </div>
             <button onClick={handleLogout} className="logout-button">Logout</button>
           </nav>
