@@ -36,20 +36,15 @@ function AppContent() {
 
 
   useEffect(() => {
-  if (user) {
-    createUserProfileIfNeeded(user);
-    const redirectPath = localStorage.getItem('redirectPath'); // Checks for the saved path
-    if (redirectPath) {
-      localStorage.removeItem('redirectPath'); // Clears the path
-      navigate(redirectPath, { replace: true }); // Navigates to the intended page
+    if (user) {
+      createUserProfileIfNeeded(user);
+      const redirectPath = localStorage.getItem('redirectPath'); // Checks for the saved path
+      if (redirectPath) {
+        localStorage.removeItem('redirectPath'); // Clears the path
+        navigate(redirectPath, { replace: true }); // Navigates to the intended page
+      }
     }
-      // FIX: it redirects to home if user
-      // else {
-      //   // This is the new logic: handles a fresh login by redirecting to the homepage
-      //   navigate('/', { replace: true });
-      // }
-  }
-}, [user, navigate]);
+  }, [user, navigate]);
 
   const handleLogout = () => {
     auth.signOut();
@@ -125,7 +120,20 @@ function AppContent() {
             ) : (
               <Box>
                 {navItems.map((item) => (
-                  <Button key={item.text} color="inherit" component={NavLink} to={item.path} className={getNavLinkClass}>
+                  <Button
+                    key={item.text}
+                    color="inherit"
+                    component={NavLink}
+                    to={item.path}
+                    sx={{
+                      '&:hover': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                      },
+                      '&.active': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.16)',
+                      },
+                    }}
+                  >
                     {item.text}
                   </Button>
                 ))}
