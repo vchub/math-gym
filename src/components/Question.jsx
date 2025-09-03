@@ -1,51 +1,71 @@
+// src/components/Question.jsx
 import React from 'react';
-import { renderWithLatex } from '../utils/latexParser.jsx'; // CHANGED
+import { renderWithLatex } from '../utils/latexParser.jsx'; //
+import { Button, Box, Paper, Typography } from '@mui/material';
 
 function Question({ questionData, onAnswerSelect, selectedAnswer }) {
-  if (!questionData) return null;
+  if (!questionData) return null; //
 
-  const hasAnswered = selectedAnswer != null;
+  const hasAnswered = selectedAnswer != null; //
 
-  const getButtonStyle = (option) => {
-    if (!hasAnswered) {
-      return { backgroundColor: '#1a1a1a' };
+  const getButtonColor = (option) => {
+    if (!hasAnswered) return 'primary';
+    const isCorrectAnswer = option === questionData.options[questionData.answer]; //
+    if (isCorrectAnswer) return 'success';
+    const isSelectedAnswer = option === selectedAnswer; //
+    if (isSelectedAnswer) return 'error';
+    return 'primary';
+  };
+
+  const getButtonSx = (option) => {
+    const isSelected = option === selectedAnswer;
+    const isCorrect = option === questionData.options[questionData.answer];
+    
+    const styles = {
+      justifyContent: 'flex-start',
+      textTransform: 'none',
+      borderWidth: '1px'
+    };
+
+    if (hasAnswered) {
+      // This new line makes the buttons unclickable after the first answer.
+      styles.pointerEvents = 'none';
+
+      if (isSelected || isCorrect) {
+        styles.borderWidth = '2px';
+      } else {
+        styles.opacity = 0.6;
+      }
     }
-    const isCorrectAnswer = option === questionData.options[questionData.answer];
-    const isSelectedAnswer = option === selectedAnswer;
-    if (isCorrectAnswer) {
-      return { backgroundColor: '#28a745' };
-    }
-    if (isSelectedAnswer && !isCorrectAnswer) {
-      return { backgroundColor: '#dc3545' };
-    }
-    return { backgroundColor: '#1a1a1a', opacity: 0.6 };
+    
+    return styles;
   };
 
   return (
-    <div className="card">
-      <h3>{renderWithLatex(questionData.text)}</h3>
-      <div>
+    <Paper elevation={2} sx={{ p: 2, my: 2 }}>
+      <Typography variant="h6" component="h3" sx={{ mb: 2 }}>
+        {renderWithLatex(questionData.text)}
+      </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         {questionData.options.map((option, index) => (
-          <button
-            key={index}
-            onClick={() => onAnswerSelect(questionData.id, option)}
-            style={{
-              margin: '5px',
-              ...getButtonStyle(option)
-            }}
-            disabled={hasAnswered}
+          <Button
+            key={index} //
+            onClick={() => onAnswerSelect(questionData.id, option)} //
+            variant="outlined"
+            color={getButtonColor(option)}
+            sx={getButtonSx(option)}
           >
             {renderWithLatex(option)}
-          </button>
+          </Button>
         ))}
-      </div>
+      </Box>
       {hasAnswered && questionData.explanation && (
-        <div style={{ marginTop: '20px', padding: '10px', border: '1px solid #444', borderRadius: '8px', textAlign: 'left' }}>
-          <h4>Explanation</h4>
-          <p>{renderWithLatex(questionData.explanation)}</p>
-        </div>
+        <Paper variant="outlined" sx={{ mt: 3, p: 2, textAlign: 'left', bgcolor: 'grey.100' }}>
+          <Typography variant="h6">Explanation</Typography>
+          <Typography variant="body2">{renderWithLatex(questionData.explanation)}</Typography>
+        </Paper>
       )}
-    </div>
+    </Paper>
   );
 }
 

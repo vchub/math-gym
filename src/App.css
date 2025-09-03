@@ -45,11 +45,13 @@
 }
 
 /* Style for the active navigation link */
+/* You can keep this, it's a nice touch */
 .nav-links .active-link {
-  color: #fff; /* Or any highlight color you prefer */
   text-decoration: underline;
   text-underline-offset: 4px;
 }
+
+/* Other styles like .logo, .card etc. can be removed as they will be replaced by MUI components */
 
 .logout-button {
   background: none;
