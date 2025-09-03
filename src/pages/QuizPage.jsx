@@ -6,7 +6,7 @@ import Question from '../components/Question';
 import { saveQuizResult, getQuizById } from '../services/quizService';
 import { auth } from '../firebase';
 import { renderWithLatex } from '../utils/latexParser.jsx';
-import { Box, Button, Typography, Paper, Link as MuiLink } from '@mui/material';
+import { Box, Button, Typography, Paper, Link as MuiLink, Collapse } from '@mui/material';
 
 function QuizPage() {
   const { quizId } = useParams();
@@ -14,6 +14,8 @@ function QuizPage() {
   const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
+  const [showQuizHint, setShowQuizHint] = useState(false);
+  const [showInternalTutorial, setShowInternalTutorial] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,22 +74,6 @@ function QuizPage() {
         selectedAnswer={answers[currentQuestion.id]}
       />
 
-      <Paper variant="outlined" sx={{ p: 2, mt: 3, bgcolor: 'grey.50' }}>
-        <Typography variant="h6" gutterBottom>
-          Idea: {renderWithLatex(quizData.title)}
-        </Typography>
-        <Typography variant="body1">
-          {renderWithLatex(quizData.description)}
-        </Typography>
-        {quizData.tutorial && (
-          <Typography sx={{ mt: 1 }}>
-            <MuiLink href={quizData.tutorial} target="_blank" rel="noopener noreferrer">
-              Need help? Check out the tutorial.
-            </MuiLink>
-          </Typography>
-        )}
-      </Paper>
-
       <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
         <Button variant="contained" onClick={handlePrevious} disabled={currentQuestionIndex === 0}>
           Previous
@@ -98,6 +84,50 @@ function QuizPage() {
           <Button variant="contained" color="success" onClick={handleSubmit}>Submit Quiz</Button>
         )}
       </Box>
+
+      <Paper variant="outlined" sx={{ p: 2, mt: 3, bgcolor: 'grey.50' }}>
+        {/* <Typography variant="h6" gutterBottom>
+          Idea: {renderWithLatex(quizData.title)}
+        </Typography>
+        <Typography variant="body1">
+          {renderWithLatex(quizData.description)}
+        </Typography> */}
+        
+        {quizData.internalTutorial && (
+          <Box sx={{ mt: 2 }}>
+            <Button onClick={() => setShowInternalTutorial(!showInternalTutorial)}>
+              {showInternalTutorial ? 'Hide Tutorial' : 'Show Tutorial'}
+            </Button>
+            <Collapse in={showInternalTutorial}>
+              <Paper variant="outlined" sx={{ p: 2, bgcolor: 'grey.100' }}>
+                <Typography variant="body2">{renderWithLatex(quizData.internalTutorial)}</Typography>
+              </Paper>
+            </Collapse>
+          </Box>
+        )}
+
+        {quizData.externalTutorial && (
+          <Typography sx={{ mt: 1 }}>
+            <MuiLink href={quizData.externalTutorial} target="_blank" rel="noopener noreferrer">
+              Need more help? Check out the external tutorial.
+            </MuiLink>
+          </Typography>
+        )}
+
+
+        {quizData.hint && (
+          <Box sx={{ mt: 2 }}>
+            <Button onClick={() => setShowQuizHint(!showQuizHint)}>
+              {showQuizHint ? 'Hide Quiz Hint' : 'Show Quiz Hint'}
+            </Button>
+            <Collapse in={showQuizHint}>
+              <Paper variant="outlined" sx={{ p: 2, bgcolor: 'grey.100' }}>
+                <Typography variant="body2">{renderWithLatex(quizData.hint)}</Typography>
+              </Paper>
+            </Collapse>
+          </Box>
+        )}
+      </Paper>
     </Box>
   );
 }

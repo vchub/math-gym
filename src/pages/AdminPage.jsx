@@ -33,8 +33,11 @@ function AdminPage() {
       };
 
       // Add the tutorial field if it exists in the JSON
-      if (parsedJson.tutorial && typeof parsedJson.tutorial === 'string') {
-        newQuiz.tutorial = parsedJson.tutorial;
+      if (parsedJson.externalTutorial && typeof parsedJson.externalTutorial === 'string') {
+        newQuiz.externalTutorial = parsedJson.externalTutorial;
+      }
+      if (parsedJson.internalTutorial && typeof parsedJson.internalTutorial === 'string') {
+        newQuiz.internalTutorial = parsedJson.internalTutorial;
       }
 
       const newQuizId = await createQuiz(newQuiz);

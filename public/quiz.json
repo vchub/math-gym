@@ -1,7 +1,9 @@
 {
-  "title": "Math & Physics Fundamentals Quiz 2",
-  "description": "example description $2x + 3 = 11$?",
-  "tutorial": "https://www.khanacademy.org/math/algebra",
+  "title": "Math & Physics Fundamentals Quiz 1",
+  "description": "typical solution: description $2x + 3 = 11$?",
+  "externalTutorial": "https://www.khanacademy.org/math/algebra",
+  "internalTutorial": "This is an internal tutorial. It can contain text, formulas like $E=mc^2$, and other content to help students without leaving the page.",
+  "hint": "This quiz covers basic algebra and physics principles. Remember to check your formulas.",
   "questions": [
     {
       "id": 1,
@@ -13,7 +15,8 @@
         "6"
       ],
       "answer": 1,
-      "explanation": "To solve for $x$, first subtract 3 from both sides: $2x = 11 - 3$, which simplifies to $2x = 8$. Then, divide both sides by 2 to get $x = 4$."
+      "explanation": "To solve for $x$, first subtract 3 from both sides: $2x = 11 - 3$, which simplifies to $2x = 8$. Then, divide both sides by 2 to get $x = 4$.",
+      "hint": "Try to isolate the variable $x$ on one side of the equation."
     },
     {
       "id": 2,
@@ -25,7 +28,8 @@
         "$$ \\frac{x^2}{2} + C $$"
       ],
       "answer": 0,
-      "explanation": "The power rule for integration states that the integral of $x^n$ is $$\\frac{x^{n+1}}{n+1} + C$$. For $x^2$, this results in $$\\frac{x^3}{3} + C$$."
+      "explanation": "The power rule for integration states that the integral of $x^n$ is $$\\frac{x^{n+1}}{n+1} + C$$. For $x^2$, this results in $$\\frac{x^3}{3} + C$$.",
+      "hint": "Remember the power rule for integration: $$\\int x^n dx = \\frac{x^{n+1}}{n+1} + C$$."
     },
     {
       "id": 3,
@@ -37,7 +41,8 @@
         "$P = IV$"
       ],
       "answer": 0,
-      "explanation": "Newton's Second Law of Motion states that the force ($F$) acting on an object is equal to the mass ($m$) of the object multiplied by its acceleration ($a$)."
+      "explanation": "Newton's Second Law of Motion states that the force ($F$) acting on an object is equal to the mass ($m$) of the object multiplied by its acceleration ($a$).",
+      "hint": "This law relates force, mass, and acceleration."
     }
   ]
 }
