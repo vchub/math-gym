@@ -3,57 +3,62 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Question from '../components/Question';
-import { saveQuizResult, getQuizById } from '../services/quizService'; //
-import { auth } from '../firebase'; //
-import { renderWithLatex } from '../utils/latexParser.jsx'; //
+import { saveQuizResult, getQuizById } from '../services/quizService';
+import { auth } from '../firebase';
+import { renderWithLatex } from '../utils/latexParser.jsx';
 import { Box, Button, Typography, Paper, Link as MuiLink } from '@mui/material';
 
 function QuizPage() {
-  const { quizId } = useParams(); //
-  const [quizData, setQuizData] = useState(null); //
-  const [loading, setLoading] = useState(true); //
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); //
-  const [answers, setAnswers] = useState({}); //
-  const navigate = useNavigate(); //
+  const { quizId } = useParams();
+  const [quizData, setQuizData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchQuiz = async () => {
-      setLoading(true); //
-      const data = await getQuizById(quizId); //
+      setLoading(true);
+      const data = await getQuizById(quizId);
       if (data) {
-        setQuizData(data); //
+        setQuizData(data);
       } else {
-        console.error("Quiz not found"); //
+        console.error("Quiz not found");
       }
-      setLoading(false); //
+      setLoading(false);
     };
-    fetchQuiz(); //
-  }, [quizId]); //
+    fetchQuiz();
+  }, [quizId]);
 
-  // This function was missing from the previous example
   const handleAnswerSelect = (questionId, answer) => {
-    setAnswers(prev => ({ ...prev, [questionId]: answer })); //
+    setAnswers(prev => ({ ...prev, [questionId]: answer }));
   };
 
   const handleNext = () => {
     if (currentQuestionIndex < quizData.questions.length - 1) {
-      setCurrentQuestionIndex(prev => prev + 1); //
+      setCurrentQuestionIndex(prev => prev + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(prev => prev - 1);
     }
   };
 
   const handleSubmit = async () => {
-    const user = auth.currentUser; //
+    const user = auth.currentUser;
     if (user && quizData) {
-      await saveQuizResult(user.uid, quizData, answers); //
-      alert("Quiz submitted! Check your results."); //
-      navigate('/results'); //
+      await saveQuizResult(user.uid, quizData, answers);
+      alert("Quiz submitted! Check your results.");
+      navigate('/results');
     }
   };
 
-  if (loading) return <div>Loading Quiz...</div>; //
-  if (!quizData) return <div>Failed to load quiz.</div>; //
+  if (loading) return <div>Loading Quiz...</div>;
+  if (!quizData) return <div>Failed to load quiz.</div>;
 
-  const currentQuestion = quizData.questions[currentQuestionIndex]; //
+  const currentQuestion = quizData.questions[currentQuestionIndex];
 
   return (
     <Box>
@@ -83,7 +88,10 @@ function QuizPage() {
         )}
       </Paper>
 
-      <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
+        <Button variant="contained" onClick={handlePrevious} disabled={currentQuestionIndex === 0}>
+          Previous
+        </Button>
         {currentQuestionIndex < quizData.questions.length - 1 ? (
           <Button variant="contained" onClick={handleNext}>Next</Button>
         ) : (
