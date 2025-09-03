@@ -1,10 +1,14 @@
 // src/components/Question.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { renderWithLatex } from '../utils/latexParser.jsx';
 import { Button, Box, Paper, Typography, Collapse } from '@mui/material';
 
 function Question({ questionData, onAnswerSelect, selectedAnswer }) {
   const [showHint, setShowHint] = useState(false);
+
+  useEffect(() => {
+    setShowHint(false);
+  }, [questionData]);
 
   if (!questionData) return null;
 

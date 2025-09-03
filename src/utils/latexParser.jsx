@@ -1,5 +1,5 @@
 import React from 'react';
-import { InlineMath } from 'react-katex';
+import { InlineMath, BlockMath } from 'react-katex';
 
 /**
  * Parses a string and renders any text enclosed in '$...$' or '$$...$$'
@@ -19,7 +19,7 @@ export const renderWithLatex = (text) => {
   return parts.map((part, index) => {
     // Check for double dollar signs (block math)
     if (part.startsWith('$$') && part.endsWith('$$')) {
-      return <InlineMath key={index} math={part.slice(2, -2).trim()} />;
+      return <BlockMath key={index} math={part.slice(2, -2).trim()} />;
     }
     // Check for single dollar signs (inline math)
     if (part.startsWith('$') && part.endsWith('$')) {
