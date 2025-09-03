@@ -69,7 +69,7 @@ function QuizPage() {
 
       <Paper variant="outlined" sx={{ p: 2, mt: 3, bgcolor: 'grey.50' }}>
         <Typography variant="h6" gutterBottom>
-          About this quiz: {renderWithLatex(quizData.title)}
+          Idea: {renderWithLatex(quizData.title)}
         </Typography>
         <Typography variant="body1">
           {renderWithLatex(quizData.description)}
