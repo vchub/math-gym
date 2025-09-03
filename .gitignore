@@ -28,3 +28,4 @@ context.xml
 .firebase
 dist
 src/firebase.js
+scratchpad
