@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
 import { addUserToFollow } from '../services/userService';
+import { Button } from '@mui/material';
 
 function AccountPage() {
   const [userEmail, setUserEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    auth.signOut();
+    navigate('/login');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,6 +67,9 @@ function AccountPage() {
         {message && <p style={{ color: 'green' }}>{message}</p>}
         {error && <p style={{ color: 'red' }}>{error}</p>}
       </div>
+      <Button variant="contained" color="error" onClick={handleLogout} sx={{ mt: 3 }}>
+        Logout
+      </Button>
     </div>
   );
 }

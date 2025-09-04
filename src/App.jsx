@@ -82,11 +82,6 @@ function AppContent() {
             </ListItemButton>
           </ListItem>
         ))}
-         <ListItem disablePadding>
-            <ListItemButton onClick={handleLogout}>
-              <ListItemText primary="Logout" />
-            </ListItemButton>
-          </ListItem>
       </List>
     </Box>
   );
@@ -137,7 +132,6 @@ function AppContent() {
                     {item.text}
                   </Button>
                 ))}
-                <Button color="inherit" onClick={handleLogout}>Logout</Button>
               </Box>
             )}
           </Toolbar>
