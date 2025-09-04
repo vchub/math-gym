@@ -26,7 +26,7 @@ function ResultsPage() {
 
   return (
     <div>
-      <h1>My Quiz Results</h1>
+      <h1>My Results</h1>
       {results.length > 0 ? (
         <ul style={{ padding: 0 }}>
           {results.map(result => (

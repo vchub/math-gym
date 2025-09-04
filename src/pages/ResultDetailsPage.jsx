@@ -46,9 +46,9 @@ function ResultDetailsPage() {
           return (
             <div key={question.id} style={{ border: '1px solid #444', borderRadius: '8px', padding: '1rem', marginBottom: '1rem' }}>
               <h4><MarkdownRenderer content={question.text} /></h4>
-              <p>Your Answer: <span style={{ color: isCorrect ? '#28a745' : '#dc3545', fontWeight: 'bold' }}>{userAnswer ? <MarkdownRenderer content={userAnswer} /> : 'Not Answered'}</span></p>
+              <div>Your Answer: <span style={{ color: isCorrect ? '#28a745' : '#dc3545', fontWeight: 'bold' }}>{userAnswer ? <MarkdownRenderer content={userAnswer} /> : 'Not Answered'}</span></div>
               {!isCorrect && (
-                <p>Correct Answer: <span style={{ color: '#28a745' }}><MarkdownRenderer content={correctAnswer} /></span></p>
+                <div>Correct Answer: <span style={{ color: '#28a745' }}><MarkdownRenderer content={correctAnswer} /></span></div>
               )}
               {question.explanation && (
                  <div style={{ fontStyle: 'italic', color: '#aaa', marginTop: '10px' }}>Explanation: <MarkdownRenderer content={question.explanation} /></div>
