@@ -71,7 +71,7 @@ function Question({ questionData, onAnswerSelect, selectedAnswer }) {
           </Button>
           <Collapse in={showHint}>
             <Paper variant="outlined" sx={{ p: 2, bgcolor: 'grey.100' }}>
-              <Typography variant="body2"><MarkdownRenderer content={questionData.hint} /></Typography>
+              <Typography variant="body2" component="div"><MarkdownRenderer content={questionData.hint} /></Typography>
             </Paper>
           </Collapse>
         </Box>
@@ -80,7 +80,7 @@ function Question({ questionData, onAnswerSelect, selectedAnswer }) {
       {hasAnswered && questionData.explanation && (
         <Paper variant="outlined" sx={{ mt: 3, p: 2, textAlign: 'left', bgcolor: 'grey.100' }}>
           <Typography variant="h6">Explanation</Typography>
-          <Typography variant="body2"><MarkdownRenderer content={questionData.explanation} /></Typography>
+          <Typography variant="body2" component="div"><MarkdownRenderer content={questionData.explanation} /></Typography>
         </Paper>
       )}
     </Paper>

@@ -100,7 +100,7 @@ function QuizPage() {
             </Button>
             <Collapse in={showInternalTutorial}>
               <Paper variant="outlined" sx={{ p: 2, bgcolor: 'grey.100' }}>
-                <Typography variant="body2"><MarkdownRenderer content={quizData.internalTutorial} /></Typography>
+                <Typography variant="body2" component="div"><MarkdownRenderer content={quizData.internalTutorial} /></Typography>
               </Paper>
             </Collapse>
           </Box>
@@ -122,7 +122,7 @@ function QuizPage() {
             </Button>
             <Collapse in={showQuizHint}>
               <Paper variant="outlined" sx={{ p: 2, bgcolor: 'grey.100' }}>
-                <Typography variant="body2"><MarkdownRenderer content={quizData.hint} /></Typography>
+                <Typography variant="body2" component="div"><MarkdownRenderer content={quizData.hint} /></Typography>
               </Paper>
             </Collapse>
           </Box>

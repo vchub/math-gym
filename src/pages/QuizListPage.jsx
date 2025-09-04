@@ -41,7 +41,9 @@ function QuizListPage() {
           {filteredQuizzes.map(quiz => (
             <li key={quiz.id} style={{ listStyle: 'none', border: '1px solid #ccc', margin: '10px', padding: '10px', textAlign: 'left' }}>
               <h3><MarkdownRenderer content={quiz.title} /></h3>
-              <p><MarkdownRenderer content={quiz.description} /></p>
+              <div className="quiz-description">
+                <MarkdownRenderer content={quiz.description} />
+              </div>
               {quiz.tutorial && (
                 <a href={quiz.tutorial} target="_blank" rel="noopener noreferrer" style={{marginRight: '1rem'}}>
                   View Tutorial
