@@ -11,12 +11,15 @@ const MarkdownRenderer = ({ content }) => {
     return null;
   }
 
+  // Replace the literal '\\n' with the newline character '\n'
+  const correctedContent = content.replace(/\\n/g, '\n');
+
   return (
     <ReactMarkdown
       remarkPlugins={[remarkMath]}
       rehypePlugins={[rehypeKatex]}
     >
-      {content}
+      {correctedContent}
     </ReactMarkdown>
   );
 };

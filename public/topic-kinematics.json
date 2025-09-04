@@ -1,0 +1,37 @@
+{
+  "title": "Topic 1: Fundamentals of Kinematics",
+  "description": "An introduction to the concepts of displacement, velocity, and acceleration. Learn the foundational equations of motion.",
+  "content": "## Understanding Motion\\n\\nKinematics is the branch of classical mechanics that describes the motion of points, bodies (objects), and systems of bodies without considering the forces that cause them to move. \\n\\n### Key Concepts\\n\\n* **Displacement ($$\\Delta x$$)**: The change in position of an object. It is a vector quantity.\\n* **Velocity ($$v$$)**: The rate of change of displacement. Average velocity is calculated as $$v_{avg} = \\frac{\\Delta x}{\\Delta t}$$.\\n* **Acceleration ($$a$$)**: The rate of change of velocity. \\n\\nOne of the most important equations you will use is for an object moving with constant acceleration:\\n\\n$$x(t) = x_0 + v_0t + \\frac{1}{2}at^2$$\\n\\n![Graph of position vs. time](https://i.imgur.com/3p2tL1d.png)\\n\\nThis equation allows you to predict the position of an object at any given time $$t$$. For more in-depth examples, check out the [Khan Academy section on kinematics](https://www.khanacademy.org/science/physics/one-dimensional-motion).",
+  "quizzes": [
+    {
+      "title": "Kinematics Checkpoint 1",
+      "description": "Test your understanding of basic kinematic equations.",
+      "questions": [
+        {
+          "id": 1,
+          "text": "An object moves from position $x=2$ m to $x=8$ m in 3 seconds. What is its average velocity?",
+          "options": [
+            "1 m/s",
+            "2 m/s",
+            "3 m/s",
+            "6 m/s"
+          ],
+          "answer": 1,
+          "explanation": "Average velocity is calculated as $$v_{avg} = \\frac{\\Delta x}{\\Delta t}$$. Here, $$\\Delta x = 8 \\text{ m} - 2 \\text{ m} = 6 \\text{ m}$$ and $$\\Delta t = 3 \\text{ s}$$. So, $$v_{avg} = \\frac{6}{3} = 2 \\text{ m/s}$$."
+        },
+        {
+          "id": 2,
+          "text": "A car starts from rest and accelerates at a constant rate of $4 \\text{ m/s}^2$. What is its velocity after 5 seconds?",
+          "options": [
+            "$10 \\text{ m/s}$",
+            "$15 \\text{ m/s}$",
+            "$20 \\text{ m/s}$",
+            "$25 \\text{ m/s}$"
+          ],
+          "answer": 2,
+          "explanation": "The formula for final velocity with constant acceleration is $v(t) = v_0 + at$. Since the car starts from rest, $v_0 = 0$. Therefore, $v(5) = 0 + (4 \\text{ m/s}^2)(5 \\text{ s}) = 20 \\text{ m/s}$."
+        }
+      ]
+    }
+  ]
+}

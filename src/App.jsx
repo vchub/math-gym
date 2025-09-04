@@ -23,6 +23,8 @@ import AccountPage from './pages/AccountPage';
 import OtherStudentsPage from './pages/OtherStudentsPage.jsx';
 import StudentResultsPage from './pages/StudentResultsPage';
 import ResultDetailsPage from './pages/ResultDetailsPage';
+import TopicListPage from './pages/TopicListPage';
+import TopicPage from './pages/TopicPage';
 import 'katex/dist/katex.min.css';
 
 
@@ -61,6 +63,7 @@ function AppContent() {
   const getNavLinkClass = ({ isActive }) => isActive ? 'active-link' : '';
 
   const navItems = [
+    { text: 'Topics', path: '/topics' },
     { text: 'Quizzes', path: '/' },
     { text: 'Results', path: '/results' },
     { text: 'Account', path: '/account' },
@@ -141,6 +144,8 @@ function AppContent() {
             <Route path="/login" element={<LoginPage />} />
             
             {/* Protected Routes */}
+            <Route path="/topics" element={<ProtectedRoute><TopicListPage /></ProtectedRoute>} />
+            <Route path="/topic/:topicId" element={<ProtectedRoute><TopicPage /></ProtectedRoute>} />
             <Route path="/quiz/:quizId" element={<ProtectedRoute><QuizPage /></ProtectedRoute>} />
             <Route path="/results" element={<ProtectedRoute><ResultsPage /></ProtectedRoute>} />
             <Route path="/results/details/:resultId" element={<ProtectedRoute><ResultDetailsPage /></ProtectedRoute>} />
