@@ -63,7 +63,6 @@ function AppContent() {
   const navItems = [
     { text: 'Quizzes', path: '/' },
     { text: 'Results', path: '/results' },
-    { text: 'Create Quiz', path: '/admin' },
     { text: 'Account', path: '/account' },
   ];
 

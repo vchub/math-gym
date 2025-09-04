@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getQuizzes } from '../services/quizService';
 import MarkdownRenderer from '../components/MarkdownRenderer';
+import { Button, Box } from '@mui/material';
 
 function QuizListPage() {
   const [quizzes, setQuizzes] = useState([]);
@@ -29,7 +30,12 @@ function QuizListPage() {
 
   return (
     <div>
-      <h1>Available Quizzes</h1>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <h1>Available Quizzes</h1>
+        <Button variant="contained" component={Link} to="/admin">
+          Create Quiz
+        </Button>
+      </Box>
       <input
         type="text"
         placeholder="Search by title or description..."
