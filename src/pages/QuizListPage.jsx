@@ -2,14 +2,19 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getQuizzes } from '../services/quizService';
+import { getQuizzes, deleteQuiz } from '../services/quizService';
+import { useAuth } from '../hooks/useAuth';
 import MarkdownRenderer from '../components/MarkdownRenderer';
-import { Button, Box } from '@mui/material';
+import { Button, Box, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function QuizListPage() {
   const [quizzes, setQuizzes] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [selectedQuizId, setSelectedQuizId] = useState(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchQuizzes = async () => {
@@ -20,6 +25,28 @@ function QuizListPage() {
     };
     fetchQuizzes();
   }, []);
+
+  const handleClickOpen = (quizId) => {
+    setSelectedQuizId(quizId);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedQuizId(null);
+  };
+
+  const handleDelete = async () => {
+    if (selectedQuizId) {
+      try {
+        await deleteQuiz(selectedQuizId);
+        setQuizzes(quizzes.filter(quiz => quiz.id !== selectedQuizId));
+        handleClose();
+      } catch (error) {
+        alert("Failed to delete the quiz. Please try again.");
+      }
+    }
+  };
 
   const filteredQuizzes = quizzes.filter(quiz =>
     (quiz.description && quiz.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -45,7 +72,7 @@ function QuizListPage() {
       {filteredQuizzes.length > 0 ? (
         <ul style={{ padding: 0 }}>
           {filteredQuizzes.map(quiz => (
-            <li key={quiz.id} style={{ listStyle: 'none', border: '1px solid #ccc', margin: '10px', padding: '10px', textAlign: 'left' }}>
+            <li key={quiz.id} style={{ listStyle: 'none', border: '1px solid #ccc', margin: '10px', padding: '10px', textAlign: 'left', position: 'relative' }}>
               <h3><MarkdownRenderer content={quiz.title} /></h3>
               <div className="quiz-description">
                 <MarkdownRenderer content={quiz.description} />
@@ -56,12 +83,40 @@ function QuizListPage() {
                 </a>
               )}
               <Link to={`/quiz/${quiz.id}`}>Start Quiz</Link>
+              {user && user.uid === quiz.authorId && (
+                <IconButton
+                  aria-label="delete"
+                  onClick={() => handleClickOpen(quiz.id)}
+                  sx={{ position: 'absolute', top: 8, right: 8 }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              )}
             </li>
           ))}
         </ul>
       ) : (
         <p>No quizzes found.</p>
       )}
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Confirm Deletion"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete this quiz? This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleDelete} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

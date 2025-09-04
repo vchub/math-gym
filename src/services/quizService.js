@@ -1,6 +1,5 @@
 import { db } from '../firebase';
-import { collection, addDoc, getDocs, query, where, serverTimestamp } from "firebase/firestore";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where, serverTimestamp, doc, getDoc, setDoc, deleteDoc, runTransaction, arrayRemove } from "firebase/firestore";
 
 /**
  * Saves a user's quiz result, now including the quizId.
@@ -98,5 +97,42 @@ export const createQuiz = async (quizData) => {
     return docRef.id;
   } catch (e) {
     console.error("Error adding quiz: ", e);
+  }
+};
+
+// Function to delete a quiz
+export const deleteQuiz = async (quizId) => {
+  try {
+    await runTransaction(db, async (transaction) => {
+      // 1. Remove quiz reference from any topics
+      const topicsRef = collection(db, "topics");
+      const q = query(topicsRef, where("quizIds", "array-contains", quizId));
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((topicDoc) => {
+        const topicRef = doc(db, "topics", topicDoc.id);
+        transaction.update(topicRef, {
+          quizIds: arrayRemove(quizId)
+        });
+      });
+
+      // 2. Delete the quiz document
+      const quizRef = doc(db, "quizzes", quizId);
+      transaction.delete(quizRef);
+
+      // 3. Delete associated results to prevent orphaned data
+      const resultsRef = collection(db, "results");
+      const resultsQuery = query(resultsRef, where("quizId", "==", quizId));
+      const resultsSnapshot = await getDocs(resultsQuery);
+      resultsSnapshot.forEach((resultDoc) => {
+        const resultRef = doc(db, "results", resultDoc.id);
+        transaction.delete(resultRef);
+      });
+
+    });
+    console.log("Quiz and all associated data deleted successfully.");
+  } catch (error) {
+    console.error("Failed to delete quiz: ", error);
+    throw error; // Re-throw the error to be handled by the calling component
   }
 };
