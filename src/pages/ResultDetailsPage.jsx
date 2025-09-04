@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getResultById, getQuizById } from '../services/quizService';
-import { renderWithLatex } from '../utils/latexParser';
+import MarkdownRenderer from '../components/MarkdownRenderer';
 
 function ResultDetailsPage() {
   const { resultId } = useParams();
@@ -33,7 +33,7 @@ function ResultDetailsPage() {
   
   return (
     <div>
-      <h1>Details for: {renderWithLatex(quiz.title)}</h1>
+      <h1>Details for: <MarkdownRenderer content={quiz.title} /></h1>
       <p><strong>Score:</strong> {result.score} / {result.totalQuestions}</p>
       <p><strong>Date:</strong> {result.timestamp ? new Date(result.timestamp.seconds * 1000).toLocaleString() : 'N/A'}</p>
 
@@ -45,13 +45,13 @@ function ResultDetailsPage() {
           
           return (
             <div key={question.id} style={{ border: '1px solid #444', borderRadius: '8px', padding: '1rem', marginBottom: '1rem' }}>
-              <h4>Question {index + 1}: {renderWithLatex(question.text)}</h4>
-              <p>Your Answer: <span style={{ color: isCorrect ? '#28a745' : '#dc3545', fontWeight: 'bold' }}>{userAnswer ? renderWithLatex(userAnswer) : 'Not Answered'}</span></p>
+              <h4>Question {index + 1}: <MarkdownRenderer content={question.text} /></h4>
+              <p>Your Answer: <span style={{ color: isCorrect ? '#28a745' : '#dc3545', fontWeight: 'bold' }}>{userAnswer ? <MarkdownRenderer content={userAnswer} /> : 'Not Answered'}</span></p>
               {!isCorrect && (
-                <p>Correct Answer: <span style={{ color: '#28a745' }}>{renderWithLatex(correctAnswer)}</span></p>
+                <p>Correct Answer: <span style={{ color: '#28a745' }}><MarkdownRenderer content={correctAnswer} /></span></p>
               )}
               {question.explanation && (
-                 <p style={{ fontStyle: 'italic', color: '#aaa', marginTop: '10px' }}>Explanation: {renderWithLatex(question.explanation)}</p>
+                 <p style={{ fontStyle: 'italic', color: '#aaa', marginTop: '10px' }}>Explanation: <MarkdownRenderer content={question.explanation} /></p>
               )}
             </div>
           );

@@ -59,7 +59,7 @@ function AdminPage() {
         <textarea
           value={jsonContent}
           onChange={(e) => setJsonContent(e.target.value)}
-          placeholder='Paste complete quiz JSON here, including title, description, and questions.'
+          placeholder='Paste complete quiz JSON here. Full markdown is supported for all text fields (e.g., lists, bold) in addition to LaTeX formulas.'
           required
           rows="20"
           style={{width: '600px', fontFamily: 'monospace'}}

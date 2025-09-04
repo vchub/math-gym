@@ -1,6 +1,6 @@
 // src/components/Question.jsx
 import React, { useState, useEffect } from 'react';
-import { renderWithLatex } from '../utils/latexParser.jsx';
+import MarkdownRenderer from './MarkdownRenderer';
 import { Button, Box, Paper, Typography, Collapse } from '@mui/material';
 
 function Question({ questionData, onAnswerSelect, selectedAnswer }) {
@@ -48,7 +48,7 @@ function Question({ questionData, onAnswerSelect, selectedAnswer }) {
   return (
     <Paper elevation={2} sx={{ p: 2, my: 2 }}>
       <Typography variant="h6" component="h3" sx={{ mb: 2 }}>
-        {renderWithLatex(questionData.text)}
+        <MarkdownRenderer content={questionData.text} />
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         {questionData.options.map((option, index) => (
@@ -59,7 +59,7 @@ function Question({ questionData, onAnswerSelect, selectedAnswer }) {
             color={getButtonColor(option)}
             sx={getButtonSx(option)}
           >
-            {renderWithLatex(option)}
+            <MarkdownRenderer content={option} />
           </Button>
         ))}
       </Box>
@@ -71,7 +71,7 @@ function Question({ questionData, onAnswerSelect, selectedAnswer }) {
           </Button>
           <Collapse in={showHint}>
             <Paper variant="outlined" sx={{ p: 2, bgcolor: 'grey.100' }}>
-              <Typography variant="body2">{renderWithLatex(questionData.hint)}</Typography>
+              <Typography variant="body2"><MarkdownRenderer content={questionData.hint} /></Typography>
             </Paper>
           </Collapse>
         </Box>
@@ -80,7 +80,7 @@ function Question({ questionData, onAnswerSelect, selectedAnswer }) {
       {hasAnswered && questionData.explanation && (
         <Paper variant="outlined" sx={{ mt: 3, p: 2, textAlign: 'left', bgcolor: 'grey.100' }}>
           <Typography variant="h6">Explanation</Typography>
-          <Typography variant="body2">{renderWithLatex(questionData.explanation)}</Typography>
+          <Typography variant="body2"><MarkdownRenderer content={questionData.explanation} /></Typography>
         </Paper>
       )}
     </Paper>

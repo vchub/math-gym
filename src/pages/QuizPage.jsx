@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Question from '../components/Question';
 import { saveQuizResult, getQuizById } from '../services/quizService';
 import { auth } from '../firebase';
-import { renderWithLatex } from '../utils/latexParser.jsx';
+import MarkdownRenderer from '../components/MarkdownRenderer';
 import { Box, Button, Typography, Paper, Link as MuiLink, Collapse } from '@mui/material';
 
 function QuizPage() {
@@ -100,7 +100,7 @@ function QuizPage() {
             </Button>
             <Collapse in={showInternalTutorial}>
               <Paper variant="outlined" sx={{ p: 2, bgcolor: 'grey.100' }}>
-                <Typography variant="body2">{renderWithLatex(quizData.internalTutorial)}</Typography>
+                <Typography variant="body2"><MarkdownRenderer content={quizData.internalTutorial} /></Typography>
               </Paper>
             </Collapse>
           </Box>
@@ -122,7 +122,7 @@ function QuizPage() {
             </Button>
             <Collapse in={showQuizHint}>
               <Paper variant="outlined" sx={{ p: 2, bgcolor: 'grey.100' }}>
-                <Typography variant="body2">{renderWithLatex(quizData.hint)}</Typography>
+                <Typography variant="body2"><MarkdownRenderer content={quizData.hint} /></Typography>
               </Paper>
             </Collapse>
           </Box>

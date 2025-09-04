@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getQuizzes } from '../services/quizService';
-import { renderWithLatex } from '../utils/latexParser.jsx';
+import MarkdownRenderer from '../components/MarkdownRenderer';
 
 function QuizListPage() {
   const [quizzes, setQuizzes] = useState([]);
@@ -40,8 +40,8 @@ function QuizListPage() {
         <ul style={{ padding: 0 }}>
           {filteredQuizzes.map(quiz => (
             <li key={quiz.id} style={{ listStyle: 'none', border: '1px solid #ccc', margin: '10px', padding: '10px', textAlign: 'left' }}>
-              <h3>{renderWithLatex(quiz.title)}</h3>
-              <p>{renderWithLatex(quiz.description)}</p>
+              <h3><MarkdownRenderer content={quiz.title} /></h3>
+              <p><MarkdownRenderer content={quiz.description} /></p>
               {quiz.tutorial && (
                 <a href={quiz.tutorial} target="_blank" rel="noopener noreferrer" style={{marginRight: '1rem'}}>
                   View Tutorial

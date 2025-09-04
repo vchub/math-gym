@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../firebase';
 import { getUserResults } from '../services/quizService';
-import { renderWithLatex } from '../utils/latexParser.jsx';
+import MarkdownRenderer from '../components/MarkdownRenderer';
 
 function ResultsPage() {
   const [results, setResults] = useState([]);
@@ -32,7 +32,7 @@ function ResultsPage() {
           {results.map(result => (
             <li key={result.id} style={{ listStyle: 'none', border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
               <Link to={`/results/details/${result.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
-                <h3>{renderWithLatex(result.quizTitle)}</h3>
+                <h3><MarkdownRenderer content={result.quizTitle} /></h3>
                 <p>Score: {result.score} / {result.totalQuestions}</p>
                 <p>Date: {result.timestamp ? new Date(result.timestamp.seconds * 1000).toLocaleString() : 'N/A'}</p>
                 <p style={{ color: '#646cff', fontWeight: 'bold' }}>View Details &rarr;</p>
