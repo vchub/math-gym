@@ -1,7 +1,7 @@
 // src/services/topicService.js
 import { db } from '../firebase';
-import { collection, addDoc, getDocs, doc, getDoc, serverTimestamp } from 'firebase/firestore';
-import { createQuiz } from './quizService';
+import { collection, addDoc, getDocs, doc, getDoc, serverTimestamp, deleteDoc } from 'firebase/firestore';
+import { createQuiz, deleteQuiz } from './quizService';
 
 export const createTopic = async (topicData) => {
     if (!topicData.quizzes || !Array.isArray(topicData.quizzes)) {
@@ -46,5 +46,26 @@ export const getTopicById = async (topicId) => {
     } else {
         console.error("No such topic found!");
         return null;
+    }
+};
+
+export const deleteTopic = async (topicId) => {
+    try {
+        const topic = await getTopicById(topicId);
+        if (topic && topic.quizIds) {
+            // Delete all associated quizzes
+            for (const quizId of topic.quizIds) {
+                await deleteQuiz(quizId);
+            }
+        }
+
+        // Delete the topic document itself
+        const topicRef = doc(db, 'topics', topicId);
+        await deleteDoc(topicRef);
+
+        console.log("Topic and all its quizzes deleted successfully.");
+    } catch (error) {
+        console.error("Failed to delete topic: ", error);
+        throw error;
     }
 };
