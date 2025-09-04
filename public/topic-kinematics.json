@@ -5,7 +5,10 @@
   "quizzes": [
     {
       "title": "Kinematics Checkpoint 1",
-      "description": "Test your understanding of basic kinematic equations.",
+      "description": "Test your understanding of basic kinematic equations for constant velocity and acceleration.",
+      "externalTutorial": "https://www.khanacademy.org/science/physics/one-dimensional-motion/kinematic-formulas/v/kinematic-formulas-and-projectile-motion",
+      "internalTutorial": "This quiz focuses on the core kinematic equations. For constant velocity, use $$\\Delta x = vt$$. For constant acceleration, use $$v_f = v_0 + at$$.",
+      "hint": "Pay close attention to the initial conditions, such as whether an object starts 'from rest' ($$v_0 = 0$$).",
       "questions": [
         {
           "id": 1,
@@ -17,7 +20,8 @@
             "6 m/s"
           ],
           "answer": 1,
-          "explanation": "Average velocity is calculated as $$v_{avg} = \\frac{\\Delta x}{\\Delta t}$$. Here, $$\\Delta x = 8 \\text{ m} - 2 \\text{ m} = 6 \\text{ m}$$ and $$\\Delta t = 3 \\text{ s}$$. So, $$v_{avg} = \\frac{6}{3} = 2 \\text{ m/s}$$."
+          "explanation": "Average velocity is calculated as $$v_{avg} = \\frac{\\Delta x}{\\Delta t}$$. Here, $$\\Delta x = 8 \\text{ m} - 2 \\text{ m} = 6 \\text{ m}$$ and $$\\Delta t = 3 \\text{ s}$$. So, $$v_{avg} = \\frac{6}{3} = 2 \\text{ m/s}$$.",
+          "hint": "First, calculate the total displacement ($$\\Delta x$$), then divide by the total time ($$\\Delta t$$)."
         },
         {
           "id": 2,
@@ -29,7 +33,43 @@
             "$25 \\text{ m/s}$"
           ],
           "answer": 2,
-          "explanation": "The formula for final velocity with constant acceleration is $v(t) = v_0 + at$. Since the car starts from rest, $v_0 = 0$. Therefore, $v(5) = 0 + (4 \\text{ m/s}^2)(5 \\text{ s}) = 20 \\text{ m/s}$."
+          "explanation": "The formula for final velocity with constant acceleration is $v(t) = v_0 + at$. Since the car starts from rest, $v_0 = 0$. Therefore, $v(5) = 0 + (4 \\text{ m/s}^2)(5 \\text{ s}) = 20 \\text{ m/s}$.",
+          "hint": "Use the kinematic equation that relates final velocity, initial velocity, acceleration, and time."
+        }
+      ]
+    },
+    {
+      "title": "Kinematics Checkpoint 2: Free Fall",
+      "description": "Apply kinematic equations to objects under the influence of gravity.",
+      "externalTutorial": "https://www.khanacademy.org/science/physics/one-dimensional-motion/kinematic-formulas/a/what-are-the-kinematic-formulas",
+      "internalTutorial": "Free fall is a special case of constant acceleration where the acceleration is due to gravity, $g$. We use a value of $$g \\approx 9.8 \\text{ m/s}^2$$. The same kinematic equations apply, just substitute '$a$' with '$g$'.",
+      "hint": "Remember that acceleration due to gravity is constant and acts downwards. An object 'dropped' or 'starting from rest' has an initial velocity ($v_0$) of 0.",
+      "questions": [
+        {
+          "id": 1,
+          "text": "A ball is dropped from a tall building. How fast is it traveling after 3 seconds? (Assume $$g = 9.8 \\text{ m/s}^2$$)",
+          "options": [
+            "9.8 m/s",
+            "19.6 m/s",
+            "29.4 m/s",
+            "38.2 m/s"
+          ],
+          "answer": 2,
+          "explanation": "Use the formula $v_f = v_0 + gt$. Since the ball is dropped, $v_0 = 0$. So, $v_f = (9.8 \\text{ m/s}^2)(3 \\text{ s}) = 29.4 \\text{ m/s}$.",
+          "hint": "Final velocity in free fall is acceleration due to gravity multiplied by time."
+        },
+        {
+          "id": 2,
+          "text": "How far does the ball fall in those 3 seconds? (Assume $$g = 9.8 \\text{ m/s}^2$$)",
+          "options": [
+            "14.7 m",
+            "29.4 m",
+            "44.1 m",
+            "88.2 m"
+          ],
+          "answer": 2,
+          "explanation": "Use the distance formula $$\\Delta x = v_0t + \\frac{1}{2}gt^2$$. Since $v_0 = 0$, the equation simplifies to $$\\Delta x = \\frac{1}{2}gt^2$$. So, $$\\Delta x = \\frac{1}{2}(9.8)(3^2) = 4.9 \\times 9 = 44.1 \\text{ m}$$",
+          "hint": "Use the kinematic equation for displacement that involves acceleration and time squared."
         }
       ]
     }
