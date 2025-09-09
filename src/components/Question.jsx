@@ -3,10 +3,32 @@ import React, { useState, useEffect } from 'react';
 import MarkdownRenderer from './MarkdownRenderer';
 import { Button, Box, Paper, Typography, Collapse } from '@mui/material';
 
+// Fisher-Yates (aka Knuth) shuffle algorithm
+const shuffleArray = (array) => {
+  let currentIndex = array.length, randomIndex;
+  const newArray = [...array]; // Create a copy
+
+  // While there remain elements to shuffle.
+  while (currentIndex !== 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [newArray[currentIndex], newArray[randomIndex]] = [
+      newArray[randomIndex], newArray[currentIndex]];
+  }
+  return newArray;
+}
+
 function Question({ questionData, onAnswerSelect, selectedAnswer }) {
   const [showHint, setShowHint] = useState(false);
+  const [shuffledOptions, setShuffledOptions] = useState([]);
 
   useEffect(() => {
+    if (questionData && questionData.options) {
+      setShuffledOptions(shuffleArray(questionData.options));
+    }
     setShowHint(false);
   }, [questionData]);
 
@@ -51,7 +73,7 @@ function Question({ questionData, onAnswerSelect, selectedAnswer }) {
         <MarkdownRenderer content={questionData.text} />
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-        {questionData.options.map((option, index) => (
+        {shuffledOptions.map((option, index) => (
           <Button
             key={index}
             onClick={() => onAnswerSelect(questionData.id, option)}
