@@ -7,6 +7,7 @@ export const useUserProfile = () => {
   const [user] = useAuthState(auth);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [hasSharedResults, setHasSharedResults] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -14,9 +15,15 @@ export const useUserProfile = () => {
         setLoading(true);
         const userProfile = await getUserProfile(user.uid);
         setProfile(userProfile);
+        if (userProfile && userProfile.followers && userProfile.followers.length > 0) {
+          setHasSharedResults(true);
+        } else {
+          setHasSharedResults(false);
+        }
         setLoading(false);
       } else {
         setProfile(null);
+        setHasSharedResults(false);
         setLoading(false);
       }
     };
@@ -24,5 +31,5 @@ export const useUserProfile = () => {
     fetchProfile();
   }, [user]);
 
-  return { user, profile, loading };
+  return { user, profile, loading, hasSharedResults };
 };

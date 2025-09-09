@@ -47,7 +47,6 @@ function AccountPage() {
       <div style={{ border: '1px solid #444', borderRadius: '8px', padding: '1rem', marginBottom: '2rem' }}>
         <h2>Permissions</h2>
         <p>Manage which users can see your results or view results shared with you.</p>
-        <Link to="/other-students">View students who have shared results with you &rarr;</Link>
       </div>
 
       <div style={{ border: '1px solid #444', borderRadius: '8px', padding: '1rem' }}>

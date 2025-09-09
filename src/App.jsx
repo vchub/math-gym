@@ -29,7 +29,7 @@ import 'katex/dist/katex.min.css';
 
 
 function AppContent() {
-  const { user, loading } = useUserProfile();
+  const { user, loading, hasSharedResults } = useUserProfile();
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
   
@@ -66,6 +66,7 @@ function AppContent() {
     { text: 'Topics', path: '/topics' },
     { text: 'Quizzes', path: '/' },
     { text: 'Results', path: '/results' },
+    ...(hasSharedResults ? [{ text: 'Students', path: '/other-students' }] : []),
     { text: 'Account', path: '/account' },
   ];
 
