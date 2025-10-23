@@ -2,6 +2,30 @@
 
 Act as js, react, and firebase developer.
 
+We want create a minimal game for the following math/logic problem:
+
+We have n lamps and n switches for them.
+Connection lamp - switch is unknown - like sw.1 can be connected to lamp 3
+The task is to map switch to a lamp in min. number of acts.
+One act is switching on or off any number of switches.
+All lamps are off initially.
+
+---
+
+App description:
+
+- let choose number of lamps in the problem
+- Shows n lamp, n switches, button Act
+- toggles switches
+- when Act is clicked - acts - toggles lamps accordingly.
+- lamps and sw. have numbers
+- have fields to insert found mapping
+- check found mapping when button Done is clicked
+
+---
+
+Let's discuss the structure of the app. Suggest yours.
+
 we work on a web application that allows to test students with quizzes.
 quizzes are about math and physics - need to render math formulas.
 we want to keep architecture and development process as simple as possible.
