@@ -17,6 +17,7 @@ import AccountPage from './pages/AccountPage';
 import OtherStudentsPage from './pages/OtherStudentsPage.jsx';
 import StudentResultsPage from './pages/StudentResultsPage';
 import ResultDetailsPage from './pages/ResultDetailsPage';
+import GamesPage from './pages/GamesPage';
 import LampSwitchGamePage from './pages/LampSwitchGamePage';
 import 'katex/dist/katex.min.css';
 
@@ -55,7 +56,7 @@ function AppContent() {
           <nav>
             <div className="nav-links">
               <NavLink to="/" className={getNavLinkClass} end>Quizzes</NavLink>
-              <NavLink to="/lamp-switch" className={getNavLinkClass}>Lamp Switch</NavLink>
+              <NavLink to="/games" className={getNavLinkClass}>Games</NavLink>
               <NavLink to="/results" className={getNavLinkClass}>Results</NavLink>
               <NavLink to="/admin" className={getNavLinkClass}>Create Quiz</NavLink>
               <NavLink to="/account" className={getNavLinkClass}>Account</NavLink>
@@ -69,7 +70,8 @@ function AppContent() {
           <Route path="/login" element={<LoginPage />} />
           
           {/* Protected Routes */}
-          <Route path="/lamp-switch" element={<ProtectedRoute><LampSwitchGamePage /></ProtectedRoute>} />
+          <Route path="/games" element={<ProtectedRoute><GamesPage /></ProtectedRoute>} />
+          <Route path="/games/lamp-switch" element={<ProtectedRoute><LampSwitchGamePage /></ProtectedRoute>} />
           <Route path="/quiz/:quizId" element={<ProtectedRoute><QuizPage /></ProtectedRoute>} />
           <Route path="/results" element={<ProtectedRoute><ResultsPage /></ProtectedRoute>} />
           <Route path="/results/details/:resultId" element={<ProtectedRoute><ResultDetailsPage /></ProtectedRoute>} />
