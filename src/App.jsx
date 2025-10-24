@@ -1,50 +1,71 @@
 // src/App.jsx
 
-import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, NavLink, useNavigate } from 'react-router-dom';
-import { auth } from './firebase.js';
-import { createUserProfileIfNeeded } from './services/userService';
-import { useUserProfile } from './hooks/useUserProfile';
+import { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  NavLink,
+  useNavigate,
+} from "react-router-dom";
+import { auth } from "./firebase.js";
+import { createUserProfileIfNeeded } from "./services/userService";
+import { useUserProfile } from "./hooks/useUserProfile";
 
 // MUI Imports
-import { AppBar, Toolbar, Typography, Button, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, Box, Container, useTheme, useMediaQuery, ThemeProvider, createTheme } from '@mui/material';
-import CssBaseline from '@mui/material/CssBaseline';
-import MenuIcon from '@mui/icons-material/Menu';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Box,
+  Container,
+  useTheme,
+  useMediaQuery,
+  ThemeProvider,
+  createTheme,
+} from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import MenuIcon from "@mui/icons-material/Menu";
 
 // Page and Component Imports
-import './App.css';
-import ProtectedRoute from './components/ProtectedRoute';
-import LoginPage from './pages/LoginPage';
-import QuizListPage from './pages/QuizListPage';
-import QuizPage from './pages/QuizPage';
-import ResultsPage from './pages/ResultsPage';
-import AdminPage from './pages/AdminPage';
-import AccountPage from './pages/AccountPage';
-import OtherStudentsPage from './pages/OtherStudentsPage.jsx';
-import StudentResultsPage from './pages/StudentResultsPage';
-import ResultDetailsPage from './pages/ResultDetailsPage';
-import GamesPage from './pages/GamesPage';
-import LampSwitchGamePage from './pages/LampSwitchGamePage';
-import TopicListPage from './pages/TopicListPage';
-import TopicPage from './pages/TopicPage';
-import 'katex/dist/katex.min.css';
-
+import "./App.css";
+import ProtectedRoute from "./components/ProtectedRoute";
+import LoginPage from "./pages/LoginPage";
+import QuizListPage from "./pages/QuizListPage";
+import QuizPage from "./pages/QuizPage";
+import ResultsPage from "./pages/ResultsPage";
+import AdminPage from "./pages/AdminPage";
+import AccountPage from "./pages/AccountPage";
+import OtherStudentsPage from "./pages/OtherStudentsPage.jsx";
+import StudentResultsPage from "./pages/StudentResultsPage";
+import ResultDetailsPage from "./pages/ResultDetailsPage";
+import GamesPage from "./pages/GamesPage";
+import LampSwitchGamePage from "./pages/LampSwitchGamePage";
+import TopicListPage from "./pages/TopicListPage";
+import TopicPage from "./pages/TopicPage";
+import "katex/dist/katex.min.css";
 
 function AppContent() {
   const { user, loading, hasSharedResults } = useUserProfile();
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
-  
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     if (user) {
       createUserProfileIfNeeded(user);
-      const redirectPath = localStorage.getItem('redirectPath'); // Checks for the saved path
+      const redirectPath = localStorage.getItem("redirectPath"); // Checks for the saved path
       if (redirectPath) {
-        localStorage.removeItem('redirectPath'); // Clears the path
+        localStorage.removeItem("redirectPath"); // Clears the path
         navigate(redirectPath, { replace: true }); // Navigates to the intended page
       }
     }
@@ -52,25 +73,30 @@ function AppContent() {
 
   const handleLogout = () => {
     auth.signOut();
-    navigate('/login');
+    navigate("/login");
   };
 
   const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
       return;
     }
     setDrawerOpen(open);
   };
-  
-  const getNavLinkClass = ({ isActive }) => isActive ? 'active-link' : '';
+
+  const getNavLinkClass = ({ isActive }) => (isActive ? "active-link" : "");
 
   const navItems = [
-    { text: 'Topics', path: '/topics' },
-    { text: 'Quizzes', path: '/' },
-    { text: 'Games', path: '/games' },
-    { text: 'Results', path: '/results' },
-    ...(hasSharedResults ? [{ text: 'Students', path: '/other-students' }] : []),
-    { text: 'Account', path: '/account' },
+    { text: "Topics", path: "/topics" },
+    { text: "Quizzes", path: "/" },
+    { text: "Games", path: "/games" },
+    { text: "Results", path: "/results" },
+    ...(hasSharedResults
+      ? [{ text: "Students", path: "/other-students" }]
+      : []),
+    { text: "Account", path: "/account" },
   ];
 
   const drawerContent = (
@@ -101,7 +127,12 @@ function AppContent() {
       {user && (
         <AppBar position="fixed">
           <Toolbar>
-            <Typography variant="h6" component={NavLink} to="/" sx={{ flexGrow: 1, color: 'inherit', textDecoration: 'none' }}>
+            <Typography
+              variant="h6"
+              component={NavLink}
+              to="/"
+              sx={{ flexGrow: 1, color: "inherit", textDecoration: "none" }}
+            >
               Math Gym
             </Typography>
             {isMobile ? (
@@ -114,7 +145,11 @@ function AppContent() {
                 >
                   <MenuIcon />
                 </IconButton>
-                <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+                <Drawer
+                  anchor="right"
+                  open={drawerOpen}
+                  onClose={toggleDrawer(false)}
+                >
                   {drawerContent}
                 </Drawer>
               </>
@@ -127,11 +162,11 @@ function AppContent() {
                     component={NavLink}
                     to={item.path}
                     sx={{
-                      '&:hover': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.08)",
                       },
-                      '&.active': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.16)',
+                      "&.active": {
+                        backgroundColor: "rgba(255, 255, 255, 0.16)",
                       },
                     }}
                   >
@@ -146,25 +181,101 @@ function AppContent() {
           </Toolbar>
         </AppBar>
       )}
-      <Container component="main" maxWidth="md" sx={{ mt: { xs: 8, sm: 10 }, mb: 4 }}>
+      <Container
+        component="main"
+        maxWidth="md"
+        sx={{ mt: { xs: 8, sm: 10 }, mb: 4 }}
+      >
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          
+
+          {/* Public Routes */}
+          <Route path="/games" element={<GamesPage />} />
+          <Route path="/games/lamp-switch" element={<LampSwitchGamePage />} />
+
           {/* Protected Routes */}
-          <Route path="/games" element={<ProtectedRoute><GamesPage /></ProtectedRoute>} />
-          <Route path="/games/lamp-switch" element={<ProtectedRoute><LampSwitchGamePage /></ProtectedRoute>} />
-          <Route path="/topics" element={<ProtectedRoute><TopicListPage /></ProtectedRoute>} />
-          <Route path="/topic/:topicId" element={<ProtectedRoute><TopicPage /></ProtectedRoute>} />
-          <Route path="/quiz/:quizId" element={<ProtectedRoute><QuizPage /></ProtectedRoute>} />
-          <Route path="/results" element={<ProtectedRoute><ResultsPage /></ProtectedRoute>} />
-          <Route path="/results/details/:resultId" element={<ProtectedRoute><ResultDetailsPage /></ProtectedRoute>} />
-          <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
-          <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
-          <Route path="/other-students" element={<ProtectedRoute><OtherStudentsPage /></ProtectedRoute>} />
-          <Route path="/students/results/:studentId" element={<ProtectedRoute><StudentResultsPage /></ProtectedRoute>} />
-          
+          <Route
+            path="/topics"
+            element={
+              <ProtectedRoute>
+                <TopicListPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/topic/:topicId"
+            element={
+              <ProtectedRoute>
+                <TopicPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/quiz/:quizId"
+            element={
+              <ProtectedRoute>
+                <QuizPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/results"
+            element={
+              <ProtectedRoute>
+                <ResultsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/results/details/:resultId"
+            element={
+              <ProtectedRoute>
+                <ResultDetailsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/account"
+            element={
+              <ProtectedRoute>
+                <AccountPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/other-students"
+            element={
+              <ProtectedRoute>
+                <OtherStudentsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/students/results/:studentId"
+            element={
+              <ProtectedRoute>
+                <StudentResultsPage />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Default Route */}
-          <Route path="/" element={<ProtectedRoute><QuizListPage /></ProtectedRoute>} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <QuizListPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Container>
     </>
@@ -173,7 +284,7 @@ function AppContent() {
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: "light",
   },
 });
 
