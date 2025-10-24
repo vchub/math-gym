@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Question from '../components/Question';
-import { saveQuizResult } from '../services/quizService';
-import { getQuizById } from '../services/quizService';
+import { saveQuizResult, getQuizById } from '../services/quizService';
 import { auth } from '../firebase';
-import { renderWithLatex } from '../utils/latexParser.jsx';
+import MarkdownRenderer from '../components/MarkdownRenderer';
+import { Box, Button, Typography, Paper, Link as MuiLink, Collapse } from '@mui/material';
 
 function QuizPage() {
   const { quizId } = useParams();
@@ -14,6 +14,8 @@ function QuizPage() {
   const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
+  const [showQuizHint, setShowQuizHint] = useState(false);
+  const [showInternalTutorial, setShowInternalTutorial] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,6 +42,12 @@ function QuizPage() {
     }
   };
 
+  const handlePrevious = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(prev => prev - 1);
+    }
+  };
+
   const handleSubmit = async () => {
     const user = auth.currentUser;
     if (user && quizData) {
@@ -55,28 +63,72 @@ function QuizPage() {
   const currentQuestion = quizData.questions[currentQuestionIndex];
 
   return (
-    <div>
-      <h3>{renderWithLatex(quizData.description)}</h3>
-      {quizData.tutorial && (
-        <p>
-          <a href={quizData.tutorial} target="_blank" rel="noopener noreferrer">
-            Need help? Check out the tutorial.
-          </a>
-        </p>
-      )}
-      <h4>Question {currentQuestionIndex + 1} of {quizData.questions.length}</h4>
+    <Box>
+      <Typography variant="h5" align="center">
+        Question {currentQuestionIndex + 1} of {quizData.questions.length}
+      </Typography>
+      
       <Question
         questionData={currentQuestion}
         onAnswerSelect={handleAnswerSelect}
         selectedAnswer={answers[currentQuestion.id]}
       />
-      {currentQuestionIndex < quizData.questions.length - 1 ? (
-        <button onClick={handleNext}>Next</button>
-      ) : (
-        <button onClick={handleSubmit}>Submit Quiz</button>
-      )}
-      {/* The logout button below has been removed */}
-    </div>
+
+      <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>
+        <Button variant="contained" onClick={handlePrevious} disabled={currentQuestionIndex === 0}>
+          Previous
+        </Button>
+        {currentQuestionIndex < quizData.questions.length - 1 ? (
+          <Button variant="contained" onClick={handleNext}>Next</Button>
+        ) : (
+          <Button variant="contained" color="success" onClick={handleSubmit}>Submit Quiz</Button>
+        )}
+      </Box>
+
+      <Paper variant="outlined" sx={{ p: 2, mt: 3, bgcolor: 'grey.50' }}>
+        {/* <Typography variant="h6" gutterBottom>
+          Idea: {renderWithLatex(quizData.title)}
+        </Typography>
+        <Typography variant="body1">
+          {renderWithLatex(quizData.description)}
+        </Typography> */}
+        
+        {quizData.internalTutorial && (
+          <Box sx={{ mt: 2 }}>
+            <Button onClick={() => setShowInternalTutorial(!showInternalTutorial)}>
+              {showInternalTutorial ? 'Hide Tutorial' : 'Show Tutorial'}
+            </Button>
+            <Collapse in={showInternalTutorial}>
+              <Paper variant="outlined" sx={{ p: 2, bgcolor: 'grey.100' }}>
+                <Typography variant="body2" component="div"><MarkdownRenderer content={quizData.internalTutorial} /></Typography>
+              </Paper>
+            </Collapse>
+          </Box>
+        )}
+
+        {quizData.externalTutorial && (
+          <Typography sx={{ mt: 1 }}>
+            <MuiLink href={quizData.externalTutorial} target="_blank" rel="noopener noreferrer">
+              Need more help? Check out the external tutorial.
+            </MuiLink>
+          </Typography>
+        )}
+
+
+        {quizData.hint && (
+          <Box sx={{ mt: 2 }}>
+            <Button onClick={() => setShowQuizHint(!showQuizHint)}>
+              {showQuizHint ? 'Hide Quiz Hint' : 'Show Quiz Hint'}
+            </Button>
+            <Collapse in={showQuizHint}>
+              <Paper variant="outlined" sx={{ p: 2, bgcolor: 'grey.100' }}>
+                <Typography variant="body2" component="div"><MarkdownRenderer content={quizData.hint} /></Typography>
+              </Paper>
+            </Collapse>
+          </Box>
+        )}
+      </Paper>
+    </Box>
   );
 }
 

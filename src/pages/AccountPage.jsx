@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
 import { addUserToFollow } from '../services/userService';
+import { Button } from '@mui/material';
 
 function AccountPage() {
   const [userEmail, setUserEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    auth.signOut();
+    navigate('/login');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +47,6 @@ function AccountPage() {
       <div style={{ border: '1px solid #444', borderRadius: '8px', padding: '1rem', marginBottom: '2rem' }}>
         <h2>Permissions</h2>
         <p>Manage which users can see your results or view results shared with you.</p>
-        <Link to="/other-students">View students who have shared results with you &rarr;</Link>
       </div>
 
       <div style={{ border: '1px solid #444', borderRadius: '8px', padding: '1rem' }}>
@@ -60,6 +66,9 @@ function AccountPage() {
         {message && <p style={{ color: 'green' }}>{message}</p>}
         {error && <p style={{ color: 'red' }}>{error}</p>}
       </div>
+      <Button variant="contained" color="error" onClick={handleLogout} sx={{ mt: 3 }}>
+        Logout
+      </Button>
     </div>
   );
 }

@@ -29,4 +29,5 @@ context.xml
 dist
 src/firebase.js
 journal
+scratchpad
 .prompt

@@ -1,11 +1,17 @@
 // src/App.jsx
 
-import { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, NavLink, useNavigate } from 'react-router-dom'; // Changed Link to NavLink
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, NavLink, useNavigate } from 'react-router-dom';
 import { auth } from './firebase.js';
 import { createUserProfileIfNeeded } from './services/userService';
 import { useUserProfile } from './hooks/useUserProfile';
 
+// MUI Imports
+import { AppBar, Toolbar, Typography, Button, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, Box, Container, useTheme, useMediaQuery, ThemeProvider, createTheme } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
+import MenuIcon from '@mui/icons-material/Menu';
+
+// Page and Component Imports
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
@@ -19,59 +25,136 @@ import StudentResultsPage from './pages/StudentResultsPage';
 import ResultDetailsPage from './pages/ResultDetailsPage';
 import GamesPage from './pages/GamesPage';
 import LampSwitchGamePage from './pages/LampSwitchGamePage';
+import TopicListPage from './pages/TopicListPage';
+import TopicPage from './pages/TopicPage';
 import 'katex/dist/katex.min.css';
 
-// This wrapper component allows us to use router hooks
-function AppContent() {
-  const { user, loading } = useUserProfile();
-  const navigate = useNavigate();
 
-  // This effect will run when the user state changes
+function AppContent() {
+  const { user, loading, hasSharedResults } = useUserProfile();
+  const navigate = useNavigate();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+
   useEffect(() => {
     if (user) {
       createUserProfileIfNeeded(user);
-      const redirectPath = localStorage.getItem('redirectPath');
+      const redirectPath = localStorage.getItem('redirectPath'); // Checks for the saved path
       if (redirectPath) {
-        localStorage.removeItem('redirectPath');
-        navigate(redirectPath, { replace: true });
+        localStorage.removeItem('redirectPath'); // Clears the path
+        navigate(redirectPath, { replace: true }); // Navigates to the intended page
       }
     }
   }, [user, navigate]);
 
-
   const handleLogout = () => {
     auth.signOut();
+    navigate('/login');
   };
+
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setDrawerOpen(open);
+  };
+  
+  const getNavLinkClass = ({ isActive }) => isActive ? 'active-link' : '';
+
+  const navItems = [
+    { text: 'Topics', path: '/topics' },
+    { text: 'Quizzes', path: '/' },
+    { text: 'Games', path: '/games' },
+    { text: 'Results', path: '/results' },
+    ...(hasSharedResults ? [{ text: 'Students', path: '/other-students' }] : []),
+    { text: 'Account', path: '/account' },
+  ];
+
+  const drawerContent = (
+    <Box
+      sx={{ width: 250 }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <List>
+        {navItems.map((item) => (
+          <ListItem key={item.text} disablePadding>
+            <ListItemButton component={NavLink} to={item.path}>
+              <ListItemText primary={item.text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  const getNavLinkClass = ({ isActive }) => isActive ? 'active-link' : '';
-
   return (
     <>
       {user && (
-        <header className="app-header">
-          <nav>
-            <div className="nav-links">
-              <NavLink to="/" className={getNavLinkClass} end>Quizzes</NavLink>
-              <NavLink to="/games" className={getNavLinkClass}>Games</NavLink>
-              <NavLink to="/results" className={getNavLinkClass}>Results</NavLink>
-              <NavLink to="/admin" className={getNavLinkClass}>Create Quiz</NavLink>
-              <NavLink to="/account" className={getNavLinkClass}>Account</NavLink>
-            </div>
-            <button onClick={handleLogout} className="logout-button">Logout</button>
-          </nav>
-        </header>
+        <AppBar position="fixed">
+          <Toolbar>
+            <Typography variant="h6" component={NavLink} to="/" sx={{ flexGrow: 1, color: 'inherit', textDecoration: 'none' }}>
+              Math Gym
+            </Typography>
+            {isMobile ? (
+              <>
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  edge="end"
+                  onClick={toggleDrawer(true)}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+                  {drawerContent}
+                </Drawer>
+              </>
+            ) : (
+              <Box>
+                {navItems.map((item) => (
+                  <Button
+                    key={item.text}
+                    color="inherit"
+                    component={NavLink}
+                    to={item.path}
+                    sx={{
+                      '&:hover': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                      },
+                      '&.active': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.16)',
+                      },
+                    }}
+                  >
+                    {item.text}
+                  </Button>
+                ))}
+                <Button color="inherit" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </Box>
+            )}
+          </Toolbar>
+        </AppBar>
       )}
-      <main className="app-content">
+      <Container component="main" maxWidth="md" sx={{ mt: { xs: 8, sm: 10 }, mb: 4 }}>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           
           {/* Protected Routes */}
           <Route path="/games" element={<ProtectedRoute><GamesPage /></ProtectedRoute>} />
           <Route path="/games/lamp-switch" element={<ProtectedRoute><LampSwitchGamePage /></ProtectedRoute>} />
+          <Route path="/topics" element={<ProtectedRoute><TopicListPage /></ProtectedRoute>} />
+          <Route path="/topic/:topicId" element={<ProtectedRoute><TopicPage /></ProtectedRoute>} />
           <Route path="/quiz/:quizId" element={<ProtectedRoute><QuizPage /></ProtectedRoute>} />
           <Route path="/results" element={<ProtectedRoute><ResultsPage /></ProtectedRoute>} />
           <Route path="/results/details/:resultId" element={<ProtectedRoute><ResultDetailsPage /></ProtectedRoute>} />
@@ -83,16 +166,25 @@ function AppContent() {
           {/* Default Route */}
           <Route path="/" element={<ProtectedRoute><QuizListPage /></ProtectedRoute>} />
         </Routes>
-      </main>
+      </Container>
     </>
   );
 }
 
+const theme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
+
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <AppContent />
+      </Router>
+    </ThemeProvider>
   );
 }
 
